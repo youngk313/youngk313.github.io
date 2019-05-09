@@ -1,0 +1,297 @@
+<html lang = "en">
+  <head>
+    <title>Young Kwon</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Latest compiled and minified CSS -->
+
+    <link rel="stylesheet" href="./css/stylish.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <script src = "https://www.gstatic.com/firebasejs/5.9.4/firebase.js">
+    </script>
+
+  </head>
+  <body id = "homePage" data-spy="scroll" data-target=".navbar" data-offset="50">
+    <nav id = "nav_Bar" class = "navbar navbar-inverse navbar-fixed-top text-right">
+      <div class = "container-fluid text-center">
+        <ul class = "nav navbar-nav">
+          <li class = "active"><a href = "#About"><h3 style = "transform:translateY(-8px);color:white;line-height:14px;">Young Kwon</h3></a></li>     
+          <li><img style = "width:20px" class = "img-circle" src = "./images/phoneIcon.png" alt = "phoneicon"> <p>: (778) - 814 - 9431 </p></li>
+          <li><img style = "width:22px" class = "img-circle" src = "./images/email.png" alt = "emailIcon"> <p>: youngkwon313@gmail.com </p></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div id = "sliding" class ="carousel slide" data-ride ="carousel">
+      <!--Indicators-->
+      <ol class ="carousel-indicators">
+        <li data-target="#sliding" data-slide-to="0" class = "active"></li>
+        <li data-target="#sliding" data-slide-to="1"></li>
+        <li data-target="#sliding" data-slide-to="2"></li>
+        <!--<li data-target="#sliding" data-slide-to="3"></li>-->
+      </ol>
+      <div class ="carousel-inner" role = "listbox">
+        <div class="item active">
+          <img style = "filter:saturate(70%)"src = "./images/deepcove.jpg" alt = "DeepCove" class = "sliders">
+          <div class = "carousel-caption">
+            <h2>Vancouver raised.</h2>
+          </div>
+        </div>
+        <div class ="item">
+           <img style = "filter:saturate(70%)"src = "./images/windTurbine.jpg" alt = "wind" class = "sliders">
+          <div class = "carousel-caption">
+            <h3>Passionate about renewable energy.</h3>
+          </div>
+        </div>
+        <div class ="item">
+           <img style = "filter:saturate(70%)"src = "./images/coding2.jpg" alt = "coding" class = "sliders">
+          <div class = "carousel-caption">
+            <h3>Interested in machine learning.</h3>
+          </div>
+        </div>
+      </div>
+      <a class ="left carousel-control" href="#sliding" role ="button" data-slide="prev">
+        <span class ="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class ="sr-only">Previous</span>
+      </a>
+      <a class ="right carousel-control" href="#sliding" role="button" data-slide = "next">
+        <span class = "glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class ="sr-only">Next</span>
+      </a>
+    </div>
+    <div id = "About" class = "jumbotron text-center" offset = "">
+      <h1><img style = "width: 15vw; " src = "./images/profPic.jpg" alt = "profilePic" class = "img-circle"> &emsp; A little bit about myself.</h1>
+    </div>
+    <ul class = "nav nav-tabs">
+      <li class = "active"><a data-toggle = "tab" href = "#Employment"> Employment</a></li>
+       <li><a data-toggle="pill" href="#Portfolio">Portfolio</a></li>
+      <li><a data-toggle="pill" href="#Skills">Skills</a></li>
+      <li><a data-toggle="pill" href="#Education">Education</a></li>
+      <li id = "tabVol"><a data-toggle="pill" href="#Volunteer">Volunteer</a></li>
+    </ul>
+
+<div class = "tab-content">
+  <div id = "Employment" class = "tab-pane fade in active">
+    <div class = "container-fluid text-center">
+      <h2>Employment Experience</h2>
+      <br>
+      <div class ="row">
+        <div id = "position1" class = "col-sm-4">
+          <h4>Reliability Engineer Co-op</h4>
+          <p> Syncrude Canada Ltd. <img src = "./images/syncrude.jpeg" alt ="syncrude" class = "img-circle" style = "width:40px"></p>
+        </div>
+
+        <div id = "achievements1" class = "col-sm-6 text-left">
+          <ul>
+            <li>Produced engineering work packages (EWP) for maintenance and repair of piping, valves, storage tanks, heat exchangers, 
+          and compressors.</li> 
+            <li>Completed a hot tap package for a heavy gas oil pipeline that prevented $10 million in production loss. </li>
+            <li>Developed all work packages to comply with relevant company specifications and industry standards and codes such as ASME B31.3 and API-560.</li>
+          </ul>
+        </div>
+      </div>
+      <br/>
+      <div class ="row">
+        <div id = "position2" class = "col-sm-4">
+          <h4>Field Engineer Co-op</h4>
+          <p> Syncrude Canada Ltd. <img src = "./images/syncrude.jpeg" alt ="syncrude" class = "img-circle" style = "width:40px"></p>    
+        </div>
+
+        <div id = "achievements1" class = "col-sm-6 text-left">
+          <ul>
+            <li>Developed an algorithm that predicts the required number of employees needed for future major capital projects. </li>
+            <li>Ensured proper procurement and storage of construction materials using material take offs</li> 
+          </ul>
+        </div>
+      </div>
+      <br/>
+      <div class ="row">
+        <div id = "position3" class = "col-sm-4">
+          <h4>SAT Math and AP Physics Instructor</h4>
+          <p> Elite Educational Institute <img src = "./images/elite.png" alt ="syncrude" class = "img-circle" style = "width:40px"></p>
+        </div>
+
+        <div id = "achievements1" class = "col-sm-6 text-left">
+          <ul>
+            <li>Managed classroom sizes of up to 10 students and fostered an engaging environment for students to participate in the lessons. </li>
+            <li>Analyzed students' homework and tests to determine weaknesses in understanding and fundamentals to cater lesson plans toward their improvement.</li> 
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id = "Portfolio" class = "tab-pane fade">
+    <div class = "container-fluid text-center">
+      <h2>Projects</h2>
+      <br/>
+      <div class ="row">
+        <div id = "project1" class = "col-sm-4">
+          <h3><a style = "color:black; text-decoration: none;" href = "https://foodkeep.firebaseapp.com/" target="_blank">FoodKeep</a></h3>
+        </div>
+        <div class = "col-sm-6 text-left">
+          <p>A web application that provides users a platform to keep track of their food items and expiry dates of those food items. It was built using BootStrap, CSS, HTML, JavaScript, and JQuery. </p>
+        </div>
+      </div>
+       <br/>
+      <div class ="row">
+        <div id = "project2" class = "col-sm-4">
+          <h3>Spectral Analysis of Wind Speed</h3>
+        </div>
+        <div class = "col-sm-6 text-left">
+          <p>A program that converts a time series of wind speed data into the frequency domain using a fast Fourier transform and produces a logarithmic graph of the spectrum of energy produced by each frequency of wind speed. Data is preprocessed to eliminate any anomalies that will affect the accuracy of the analysis.</p>
+        </div>
+      </div>
+      <br/>
+      <div class ="row">
+        <div id = "project3" class = "col-sm-4">
+          <h3>Tic-Tac-Toe</h3>
+        </div>
+        <div class = "col-sm-6 text-left">
+          <p>A simple game of tic-tac-toe using Python and the Matplotlib library to display the graphics.</p>
+        </div>
+      </div>
+      <br/>
+      <div class ="row">
+        <div id = "project4" class = "col-sm-4">
+          <h3>NACA 1408 Airfoil Analysis</h3>
+        </div>
+        <div class = "col-sm-6 text-left">
+          <p>Analysis of the effects on the lift and drag on the NACA 1408 airfoil when various air speeds and angles of attack were used.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id = "Skills" class = "tab-pane fade">
+    <div class = "container-fluid text-center">
+      <h2>Skills</h2>
+      <br/>
+      <div class ="row">
+  
+        <div id = "CSLanguages" class = "col-sm-2">
+          <p>HTML</p>
+          <p>CSS</p>
+          <p>BootStrap</p>
+          <p>JavaScript</p>
+          <p>React</p>
+          <p>JQuery</p>   
+        </div>
+        <div id = "CSLang_Level" class = "col-sm-2">
+          <div style = "margin-top: none" class = "progress">
+            <div class = "progress-bar bg-info" role = "progressbar" style = "width: 80%; margin-bottom: none;" aria-valuenow="80" aria-valuemin = "0" aria-valuemax = "100">
+            </div>
+          </div>
+        </div>
+
+        <div id = "EngLanguages" class = "col-sm-2">
+          <p>Java</p>
+          <p>MATLAB</p>
+          <p>Python</p>
+          <p>SQL</p>
+          <p>C</p>
+          <p>FORTRAN</p>
+        </div>
+
+        
+        <div id = "Software" class = "col-sm-2">
+          <p>ANSYS (Fluent)</p>
+          <p>SolidWorks</p>
+          <p>WaSP</p>
+          <p>AUTOCAD</p>
+          <p>Figma</p>
+          <p>Microsoft Office</p>
+        </div>
+        <div id = "powerBar" class = "col-sm-2 text-right">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id = "Education" class = "tab-pane fade" >
+    <div class = "container-fluid">
+      <h2 class = "text-center">Education</h2>
+      <div style = "margin-top: 20px" class = "row">
+        <div style = "margin-bottom: 30px" id = "BCIT" class = "col-sm-4 text-center">
+          <div class = "container-fluid text-center">
+              <img src = "./images/sourceCode.png" alt = "source" style = "width: 60px" class = "educateIcon">
+          </div>
+          <p>Computer Systems Technology Diploma</p>
+          <p>British Columbia Institute of Technology (BCIT)</p>
+          <img src = "./images/calendarIcon.png" alt = "calendar" class = "calendar"> Jan. 2019 - Current
+        </div>
+
+        <div style = "margin-bottom: 30px" id = "EWEM" class = "col-sm-4 text-center">
+          <div class = "container-fluid text-center">
+            <img src = "./images/windPower.png" alt = "turbine" style = "width: 60px" class = "educateIcon">
+          </div>
+          <p>Masters of Aerospace Engineering & Rotor Design</p>
+          <p>Technical University of Denmark</p>
+          <img src = "./images/calendarIcon.png" alt = "calendar" class = "calendar"> Sept. 2016 - June 2017
+        </div>
+
+        <div style = "margin-bottom: 30px" id = "uOfT" class = "col-sm-4 text-center">
+          <div class = "container-fluid text-center">
+            <img src = "./images/engineering.png" alt = "engineer" style = "width: 60px" class = "educateIcon">
+          </div>
+          <p>Bachelor of Applied Science - Mechanical Engineering</p>
+          <p>University of Toronto</p>
+          <img src = "./images/calendarIcon.png" alt = "calendar" class = "calendar"> Sept. 2009 - Apr. 2014
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id = "Volunteer" class = "tab-pane fade">
+    <div class = "container-fluid text-center">
+      <h2>Volunteer Experience</h2>
+      <br>
+       <div class ="row">
+        <div id = "volunteer1" class = "col-sm-4">
+          <h4>VP Sponsorship</h4>
+          <p> Ontario Engineering Competition 2012 <img src = "./images/OEC.jpg" alt ="syncrude" class = "img-circle" style = "width:40px"></p>
+        </div>
+
+        <div id = "achievements1" class = "col-sm-6 text-left">
+          <ul>
+            <li>Secured $120,000 in sponsorship funds from over 30 engineering companies and school organizations.</li> 
+            <li>Collaborated with a executive committee to organize and coordinate the largest provincial competition for undergraduate engineering students.</li>
+          </ul>
+        </div>
+      </div>
+      <br/>
+      <div class ="row">
+        <div id = "volunteer2" class = "col-sm-4">
+          <h4>School Outreach Member</h4>
+          <p> Engineers Without Borders <img src = "./images/ewb.jpg" alt ="syncrude" class = "img-circle" style = "width:40px"></p>
+        </div>
+
+        <div id = "achievements1" class = "col-sm-6 text-left">
+          <ul>
+            <li>Delivered interactive and informational presentations regarding third world issues to high school students.</li> 
+          </ul>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+    <footer id = "footy" class = "text-center">
+      <br/>
+      <a class = "up-arrow" href ="#homePage" data-toggle="tooltip" title = "TO TOP"><span style ="color:white" class ="glyphicon glyphicon-chevron-up"></span></a><br/><br/>
+      <a href = "./Young Kwon - CV.pdf" target="_blank" style = "color: white"> <img style = "width:30px" class = "img-circle" src = "./images/resume.png" alt = "resume" id = "resume"> </a>
+      <a href = "https://www.linkedin.com/in/young-kwon-91a94331" target="_blank"> <img style = "width:30px" class = "img-circle" src = "./images/linkedIn.png" alt = "linkedInIcon" id = "linkedin"> </a>
+      <a href = "https://github.com/youngk313" target="_blank"><img style = "width:30px" class = "img-circle" src = "./images/github.png" alt = "githubIcon" id = "github"> </a>
+      <br/>
+    </footer>
+
+    <script src = "./js/client-side.js"></script>
+    <script src = "./js/firebase.js"></script>
+  </body>
+</html>
