@@ -1,0 +1,57 @@
+<html lang = "en">
+  <head>
+    <title>Young Kwon</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Latest compiled and minified CSS -->
+
+    <link rel="stylesheet" href="./css/stylish.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./js/questions.js"></script>
+    <script type="text/javascript" src="./js/quiz1.js"></script>
+
+  </head>
+  <body id="homePage" data-spy="scroll" data-target=".navbar" data-offset="50">
+    <nav id = "nav_Bar" class = "navbar navbar-inverse navbar-fixed-top text-right">
+      <div class = "container-fluid text-center">
+        <ul class = "nav navbar-nav">
+          <li class = "active"><a href="./../../../../index.html"><h3 style = "transform:translateY(-8px);color:white;line-height:14px;">Young Kwon</h3></a></li>         
+          <li><img style = "width:20px" class = "img-circle" src = "./images/phoneIcon.png" alt = "phoneicon"> <p>: (778) - 814 - 9431 </p></li>
+          <li><img style = "width:22px" class = "img-circle" src = "./images/email.png" alt = "emailIcon"> <p>: youngkwon313@gmail.com </p></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div id="content" .class="container-fluid">
+      <h3>Lab 1: JavaScript Quiz</h3>
+      <form>
+          <ol id="question-list" class="course-list">
+            <li>
+                <p class="question">What would be the output of the following code?</p><br/>
+
+                <input class="option" type="radio" name="q1" id="q1a1" value="a1" /><label for="track">Track Submission</label><br />
+                <input class="option" type="radio" name="q1" id="q1a2" value="a2"  /><label for="event">Events and Artist booking</label><br />
+                <input class="option" type="radio" name="q1" id="q1a3" value="a3" /><label for="message">Message us</label><br />
+            </li>
+
+            <li>
+                <input class="option" type="radio" name="q2" id="q2a1" value="a1" /><label for="track">Track Submission</label><br />
+                <input class="option" type="radio" name="q2" id="q2a2" value="a2"  /><label for="event">Events and Artist booking</label><br />
+                <input class="option" type="radio" name="q2" id="q2a3" value="a3" /><label for="message">Message us</label><br />
+            </li>
+          </ol>
+
+          <button id="submit">Submit Quiz</button>
+     </form>
+    </div>
+    <footer id = "footy" class = "text-center" >
+
+    </footer>
+  </body>
+</html>
