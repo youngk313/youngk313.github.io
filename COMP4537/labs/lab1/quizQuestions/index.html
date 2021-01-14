@@ -22,7 +22,7 @@
     <nav id = "nav_Bar" class = "navbar navbar-inverse navbar-fixed-top text-right">
       <div class = "container-fluid text-center">
         <ul class = "nav navbar-nav">
-          <li class = "active"><a href="./../../../../index.html"><h3 style = "transform:translateY(-8px);color:white;line-height:14px;">Young Kwon</h3></a></li>         
+          <li class = "active"><a href="./../../../../index.html"><h3 id="name">Young Kwon</h3></a></li>         
           <li><img style = "width:20px" class = "img-circle" src = "./images/phoneIcon.png" alt = "phoneicon"> <p>: (778) - 814 - 9431 </p></li>
           <li><img style = "width:22px" class = "img-circle" src = "./images/email.png" alt = "emailIcon"> <p>: youngkwon313@gmail.com </p></li>
         </ul>
@@ -34,7 +34,18 @@
           <ol id="question-list" class="course-list">
           </ol>
           <div class="container-fluid text-center">
-            <button id="submit" class="btn btn-success" name="quiz" onclick="showAnswers()">Submit Quiz</button>
+            <script type="text/javascript">
+              var show = true;
+              $(document).ready(function() {
+                  document.getElementById("submit").addEventListener("click", function() {
+                    show = false;
+                  });
+                }
+              );
+                
+            </script>
+            <button id="submit" class="btn btn-success" name="quiz" onclick="markAnswers(show)">Submit Quiz</button>
+            <div id="result"></div>
           </div>
     </div>
     <footer id = "footy" class = "text-center" >

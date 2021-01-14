@@ -7,7 +7,7 @@ function makeQuiz() {
 		let listItem = 	`<li><p>${qString}</p><br/>`;
 		for (letter in question.answers) {
 			listItem +=`<input type="radio" name="question${qNumber}" value="${letter}">
-	            		<label for="track">${question.answers[letter]}</label><br />`;
+	            		<label for="track">${letter}: ${question.answers[letter]}</label><br />`;
 		}
 		listItem += `</li>`
 		listitems.push(listItem)
