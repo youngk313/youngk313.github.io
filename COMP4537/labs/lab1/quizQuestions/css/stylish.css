@@ -49,6 +49,19 @@ li p {
    width: 30px;
 }
 
+.red {
+  color: Tomato;
+}
+
+.blue {
+  color: DodgerBlue;
+}
+
+.purple {
+  color: SlateBlue;
+}
+
+
 @media screen and (max-width: 768px) {
   #sliding {
     display: none;
