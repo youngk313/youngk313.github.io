@@ -28,6 +28,7 @@ http.createServer(function (req, res) {
             res.write(data);
             return res.end();
         });
+        loadStatic = false;
     }
     if (loadStatic) {
         const extname = String(path.extname(filePath)).toLowerCase();
