@@ -1,0 +1,11 @@
+{
+  "name": "comp4537",
+  "version": "1.0.0",
+  "description": "lab4 node app",
+  "main": "server.js",
+  "scripts": {
+    "test": "node ./COMP4537/labs/4/server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
