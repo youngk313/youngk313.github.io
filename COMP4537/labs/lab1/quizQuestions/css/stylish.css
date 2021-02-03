@@ -71,6 +71,9 @@ li p {
   color: SlateBlue;
 }
 
+.icons {
+  width: 22px;
+}
 
 @media screen and (max-width: 768px) {
   #sliding {
