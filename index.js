@@ -13,7 +13,7 @@ http.createServer(function (req, res) {
         filePath = './index.html';
     } else if (filePath.includes('./COMP4537/labs/4/writeFile')) {
         const query = url.parse(req.url, true);
-        const newText = "\nURL: " + req.protocol + '://' + req.headers.host + req.url + "\ntext: " + query.query["text"] + "\n"
+        const newText = "\nURL: " + req.headers.host + req.url + "\ntext: " + query.query["text"] + "\n"
         console.log(newText)
         fs.appendFile(readFileURL + "/file.txt", newText, function(err, data) {
             if (err) {
