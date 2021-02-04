@@ -2,31 +2,42 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
+
 const port = process.env.PORT || 8080
+const readFileURL = './COMP4537/labs/4/readFile'
 
 http.createServer(function (req, res) {
     let filePath = '.' + req.url;
     let loadStatic = true;
     if (filePath == './') {
         filePath = './index.html';
-    } else if (filePath == './COMP4537/labs/4/writeFile') {
+    } else if (filePath.includes('./COMP4537/labs/4/writeFile')) {
         const query = url.parse(req.url, true);
-        res.writeHead(200, {"Content-Type": "text/html"});
-        res.end('Hello ' + query.query["text"]);
-        loadStatic = false;
-    } else if (filePath == './COMP4537/labs/4/readFile') {
-        const query = url.parse(req.url, true);
-        const filename = "." + query.pathname;
-        fs.readFile(filename, function(err, data) {
+        const newText = "\nURL: " + req.url + "\ntext: " + query.query["text"] + "\n"
+        fs.appendFile(readFileURL + "/file.txt", newText, function(err, data) {
             if (err) {
                 res.writeHead(404, {
                     "Content-Type": "text/html"
                 });
-                return res.end(query.pathname + " 404 Not Found!");
+                return res.end(filename + " 404 Not Found!");
             }
             res.writeHead(200, {"Content-Type": "text/html"});
-            res.write(data);
-            return res.end();
+            return res.end("Saved! Output: " + newText, 'utf-8');;
+        });
+        loadStatic = false;
+    } else if (filePath.includes(readFileURL)) {
+        const query = url.parse(req.url, true);
+        const filename = "." + query.pathname;
+        fs.readFile(filename, 'utf8', function(err, data) {
+            console.log(data)
+            if (err) {
+                res.writeHead(404, {
+                    "Content-Type": "text/html"
+                });
+                return res.end(filename + " 404 Not Found!");
+            }
+            res.writeHead(200, {"Content-Type": "text/html"});
+            return res.end(data, 'utf-8');
         });
         loadStatic = false;
     }
@@ -52,17 +63,17 @@ http.createServer(function (req, res) {
 
         let contentType = mimeTypes[extname] || 'application/octet-stream';
 
-        fs.readFile(filePath, function(error, content) {
-            if (error) {
-                if(error.code == 'ENOENT') {
-                    fs.readFile('./404.html', function(error, content) {
+        fs.readFile(filePath, function(err, content) {
+            if (err) {
+                if(err.code == 'ENOENT') {
+                    fs.readFile('./404.html', function(err, content) {
                         res.writeHead(404, { 'Content-Type': 'text/html' });
                         res.end(content, 'utf-8');
                     });
                 }
                 else {
                     res.writeHead(500);
-                    res.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
+                    res.end('Sorry, check with the site admin for error: '+ err.code+' ..\n');
                 }
             }
             else {
