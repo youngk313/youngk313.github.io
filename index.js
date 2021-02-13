@@ -5,7 +5,6 @@ const url = require('url');
 
 const port = process.env.PORT || 8080;
 const readFileURL = './COMP4537/labs/4/readFile';
-const writeDBURL = './COMP4537/labs/5/';
 const contentType = { "Content-Type": "text/html"};
 
 http.createServer(function (req, res) {
