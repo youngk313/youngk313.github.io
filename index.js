@@ -2,7 +2,6 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
-const mysql = require('mysql');
 
 const port = process.env.PORT || 8080;
 const readFileURL = './COMP4537/labs/4/readFile';
