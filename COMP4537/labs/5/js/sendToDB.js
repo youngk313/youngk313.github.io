@@ -1,6 +1,6 @@
 function sendData() {
     const xhttp = new XMLHttpRequest();
-    const url = "https://www.aleksandrasorokina.com/COMP4537/labs/5/readDB.html";
+    const url = "https://www.aleksandrasorokina.com/COMP4537/";
 
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -15,7 +15,7 @@ function sendData() {
     
     let data = JSON.stringify(results);
     // send the data as a POST request
-    xhttp.open("POST", url)
+    xhttp.open("POST", url, true);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.send(data);
 }
