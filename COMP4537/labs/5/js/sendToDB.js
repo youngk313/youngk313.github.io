@@ -1,6 +1,6 @@
 function sendData() {
     const xhttp = new XMLHttpRequest();
-    const url = "https://www.aleksandrasorokina.com/COMP4537/COMP4537.html";
+    const url = "https://www.aleksandrasorokina.com/COMP4537/labs/5/readDB.html";
 
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
