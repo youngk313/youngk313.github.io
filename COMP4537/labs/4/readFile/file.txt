@@ -3,3 +3,18 @@ This is lab 4 for COMP4537.
 
 URL: /COMP4537/labs/4/writeFile?text=John
 text:John
+D:\Ykwon\youngk313.github.io
+URL: /COMP4537/labs/4/writeFile
+text: undefined
+
+URL: undefined://localhost:8080/COMP4537/labs/4/writeFile
+text: undefined
+
+URL: undefined://localhost:8080/COMP4537/labs/4/writeFile
+text: undefined
+
+URL: undefined://localhost:8080/COMP4537/labs/4/writeFile
+text: undefined
+
+URL: undefined://localhost:8080/COMP4537/labs/4/writeFile
+text: undefined

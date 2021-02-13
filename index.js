@@ -2,9 +2,12 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
+const mysql = require('mysql');
 
-const port = process.env.PORT || 8080
-const readFileURL = './COMP4537/labs/4/readFile'
+const port = 8080;
+const readFileURL = './COMP4537/labs/4/readFile';
+const writeDBURL = './COMP4537/labs/5/';
+const contentType = { "Content-Type": "text/html"};
 
 http.createServer(function (req, res) {
     let filePath = '.' + req.url;
@@ -12,36 +15,34 @@ http.createServer(function (req, res) {
     if (filePath == './') {
         filePath = './index.html';
     } else if (filePath.includes('./COMP4537/labs/4/writeFile')) {
+        // writes query to file.txt
         const query = url.parse(req.url, true);
         const newText = "\nURL: " + req.headers.host + req.url + "\ntext: " + query.query["text"] + "\n"
         console.log(newText)
         fs.appendFile(readFileURL + "/file.txt", newText, function(err, data) {
             if (err) {
-                res.writeHead(404, {
-                    "Content-Type": "text/html"
-                });
+                res.writeHead(404, contentType);
                 return res.end(filename + " 404 Not Found!");
             }
-            res.writeHead(200, {"Content-Type": "text/html"});
+            res.writeHead(200, contentType);
             return res.end("Saved! Output: " + newText, 'utf-8');;
         });
         loadStatic = false;
     } else if (filePath.includes(readFileURL)) {
+        // reads file from ./file.txt and shows on webpage
         const query = url.parse(req.url, true);
         const filename = "." + query.pathname;
         fs.readFile(filename, 'utf8', function(err, data) {
             console.log(data)
             if (err) {
-                res.writeHead(404, {
-                    "Content-Type": "text/html"
-                });
+                res.writeHead(404, contentType);
                 return res.end(filename + " 404 Not Found!");
             }
-            res.writeHead(200, {"Content-Type": "text/html"});
+            res.writeHead(200, contentType);
             return res.end(data, 'utf-8');
         });
         loadStatic = false;
-    }
+    } 
     if (loadStatic) {
         const extname = String(path.extname(filePath)).toLowerCase();
         const mimeTypes = {

@@ -1,0 +1,40 @@
+<html lang = "en">
+  <head>
+    <title>Young Kwon</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="icon" href="./img/logo_16.png" type="image/png" sizes="16x16">
+    <link rel="stylesheet" href="./css/stylish.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+     <script type="text/javascript" src="./js/sendToDB.js"></script>
+
+  </head>
+  <body id="homePage" data-spy="scroll" data-target=".navbar" data-offset="50">
+    <nav id = "nav_Bar" class = "navbar navbar-inverse navbar-fixed-top text-right">
+      <div class = "container-fluid text-center">
+        <ul class = "nav navbar-nav">
+          <li class = "active"><a href="./../../../index.html"><h3 id="name">Young Kwon</h3></a></li>         
+        </ul>
+      </div>
+    </nav>
+
+    <div id="content" .class="container-fluid">
+        <label for="name">Name: </label>
+        <input type="text" id="input_name" name="fullname"><br/>
+        <label for="score">Score: </label>
+        <input type="number" id="input_score" name="score"><br/>
+        <button type="button" id="submit_button" class="btn btn-success" onclick="sendData()">Store in DB</button>
+        <div id="result"></div>
+    </div>
+    <footer id = "footy" class = "text-center" >
+
+    </footer>
+  </body>
+</html>
