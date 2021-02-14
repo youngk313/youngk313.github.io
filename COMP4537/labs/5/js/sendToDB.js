@@ -14,8 +14,9 @@ function sendData() {
     results["score"] = document.getElementById("input_score").value;
     
     let data = JSON.stringify(results);
+    console.log(data)
     // send the data as a POST request
-    xhttp.open("POST", url, true);
-    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.open("POST", url);
+    xhttp.setRequestHeader("Content-type", "text/plain");
     xhttp.send(data);
 }
