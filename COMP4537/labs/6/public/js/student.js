@@ -12,7 +12,7 @@ window.onload=()=>{
 	function loadData() {
 		// TO DO
 		const xhttp = new XMLHttpRequest();
-		const url = "http://localhost:8080/COMP4537/labs/6/";
+		const url = "https://young-u6.azurewebsites.net/COMP4537/labs/6/";
 	
 		xhttp.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
