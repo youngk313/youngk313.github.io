@@ -66,7 +66,7 @@ window.onload=()=>{
 				a++;
 			}
 			aIDs.push(answerIDs[a]);
-			currAnswers.push(qIDs[a]);
+			currAnswers.push(answers[a]);
 			a++;
 			let question = makeQuestion(i + 1, "id" + qIDs[a - 1], questions[i]);
 			for (let j = 0; j < currAnswers.length; ++j) {
