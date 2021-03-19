@@ -27,6 +27,11 @@ app.get('/index.html', function(req, res) {
     app.use(express.static(__dirname + '/public'));
 });
 
+app.get('/COMP4537/labs/lab1/quizQuestions/index.html', function(req, res) {
+    res.sendFile(__dirname + "/COMP4537/labs/lab1/quizQuestions/index.html");
+    app.use(express.static(__dirname + '/COMP4537/labs/lab1/quizQuestions/public'));
+});
+
 app.get('/COMP4537/labs/5/writeDB.html', function(req, res) {
     res.sendFile(__dirname + "/COMP4537/labs/5/writeDB.html");
     app.use(express.static(__dirname + '/COMP4537/labs/5/public'));
