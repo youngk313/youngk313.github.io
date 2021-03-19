@@ -201,7 +201,7 @@ function displayQuestions(quizInfo) {
 			a++;
 		}
 		aIDs.push(answerIDs[a]);
-		currAnswers.push(qIDs[a]);
+		currAnswers.push(answers[a]);
 		correct.push(correctAns[a]);
 		a++;
 		let question = makeChoices(i + 1, "id" + qIDs[a - 1], questions[i]);
