@@ -1,0 +1,38 @@
+<html lang = "en">
+  <head>
+    <title>Lab 6</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Latest compiled and minified CSS -->
+    <!-- <link rel="icon" href="./images/logo_16.png" type="image/png" sizes="16x16"> -->
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <!-- <script type="text/javascript" src="./js/questions.json"></script> -->
+    <script type="text/javascript" src="/js/admin.js"></script>
+  </head>
+  <body id="homePage" data-spy="scroll" data-target=".navbar" data-offset="50">
+    <div id="content" .class="container-fluid">
+        <div class="page_title">
+            <img src="/images/Quiz-clipboard.png" class="header_picture" alt="quiz_picture">
+            <h1 > Lab 6 <span>Dynamic JavaScript quiz</span></h1>
+        </div>
+          <ol id="question-list" class="course-list">
+          </ol>
+
+       
+        <div>
+          <button id="add" class="btn btn-info qButton" name="quiz">Add</button>
+          <button type="button" id="back" class="btn btn-dark qButton" name="back" onclick="location.href='./index.html'">Back</button>
+        </div>
+        <div id="result">
+
+        </div>
+    </div>
+  </body>
+</html>

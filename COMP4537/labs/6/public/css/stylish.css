@@ -1,0 +1,130 @@
+
+#button_div {
+  margin-top: 50px;
+}
+
+#nav_Bar li {
+    color: white;
+}
+
+#homePage {
+  font-family: "navFont";
+  padding-top: 70px;
+}
+
+#footy a {
+  margin-left: 20px;
+}
+
+#content {
+  margin: 50px;
+}
+
+#result {
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+#add {
+  margin-left: 50px;
+}
+
+#name {
+  transform: translateY(-8px);
+  line-height: 14px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+li {
+  padding-left: 10px;
+}
+
+li p {
+  padding-top: 24px;
+  display: inline-block;
+}
+
+@font-face {
+  font-family: "navFont";
+  src: url("../fonts/expressway.ttf");
+}
+
+.btn {
+  margin-left: 50px;
+}
+
+.question {
+  font-size: 18px;
+}
+
+.course-list {
+  font-size: 16px;
+}
+
+.nostyle-list {
+  list-style-type: none;
+}
+
+.option {
+   width: 30px;
+}
+
+.red {
+  color: Tomato;
+}
+
+.blue {
+  color: DodgerBlue;
+}
+
+.purple {
+  color: SlateBlue;
+}
+
+.icons {
+  width: 22px;
+}
+
+.noresize {
+  resize: none;
+}
+
+.qButton {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+input[type=radio] {
+  width: 25px;
+  height: 20px;
+}
+
+button {
+  margin-left:150px;
+}
+
+@media screen and (max-width: 768px) {
+  #sliding {
+    display: none;
+  }
+
+  #About {
+    padding-bottom: 60px;
+    margin-top: 180px;
+  }
+
+  #homePage {
+    padding-top: 150px;
+  }
+  
+  .progress {
+    display: none;
+  }
+
+  #tabVol {
+    display: none;
+  }
+}

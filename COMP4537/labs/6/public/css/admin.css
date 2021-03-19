@@ -1,0 +1,87 @@
+#nav_Bar {
+  margin-bottom: 50px;
+}
+
+#nav_Bar li {
+    color: white;
+}
+
+#homePage {
+  font-family: "navFont";
+  padding-top: 70px;
+}
+
+#content {
+  text-align: center;
+  margin: 50px;
+}
+
+#back {
+  margin-left: 40px;
+  margin-top: 10px;
+}
+
+#add {
+  margin-left: 50px;
+}
+
+#question-list {
+  list-style-type: none;
+}
+
+#question-list input {
+  margin-bottom: 10px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+    background-color: #cecce3;
+    font-family: "Raleway", sans-serif;
+}
+
+li {
+  padding-left: 10px;
+}
+
+li p {
+  padding-top: 24px;
+  display: inline-block;
+}
+
+.question {
+  font-size: 18px;
+}
+
+.course-list {
+  font-size: 16px;
+}
+
+.nostyle-list {
+  list-style-type: none;
+}
+
+.noresize {
+  resize: none;
+}
+
+.qButton {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+input[type=radio] {
+  width: 25px;
+  height: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  #sliding {
+    display: none;
+  }
+  #homePage {
+    padding-top: 150px;
+  }
+}

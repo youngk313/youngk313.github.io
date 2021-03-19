@@ -2,10 +2,16 @@
   "name": "comp4537",
   "version": "1.0.0",
   "description": "lab4 node app",
-  "main": "index.js",
+  "main": "index3.js",
   "scripts": {
-    "test": "node index.js"
+    "test": "node index3.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "tedious": "^11.0.5"
+  }
 }
