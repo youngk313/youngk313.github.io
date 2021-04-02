@@ -1,17 +1,18 @@
 const express = require('express');
 const fs = require('fs');
-const app = express();
 const path = require('path');
 const url = require('url');
 const dbs = require('./COMP4537/labs/6/public/js/sendToServer');
+const app = require('./COMP4537/modules/movie');
 
 const port = process.env.PORT || 8080;
 
 const connection = dbs.createConnection();
 // allows all origins and methods for requests
-app.all('/COMP4537/labs/6/admin.html', function(req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', '*');
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+    res.header('Access-Control-Allow-Methods', '*');
     next();
 });
 
@@ -65,11 +66,12 @@ app.put('/COMP4537/labs/6/admin.html', function(req, res) {
     req.on('data', data => {
         body += data;
         body = JSON.parse(body);
-        dbs.connectToDB(connection, body, body.command, res);
     });
-    
-});
 
+    req.end('end', function() {
+        dbs.connectToDB(connection, body, body.command, res);
+    })
+});
 
 app.post('/COMP4537/labs/6/admin.html', function(req, res) {
     let body = '';
