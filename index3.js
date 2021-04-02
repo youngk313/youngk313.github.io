@@ -65,10 +65,11 @@ app.put('/COMP4537/labs/6/admin.html', function(req, res) {
     let body = '';
     req.on('data', data => {
         body += data;
-        body = JSON.parse(body);
     });
 
     req.end('end', function() {
+        body = JSON.parse(body);
+        console.log(body)
         dbs.connectToDB(connection, body, body.command, res);
     })
 });
@@ -78,7 +79,6 @@ app.post('/COMP4537/labs/6/admin.html', function(req, res) {
     req.on('data', data => {
         body += data;
         body = JSON.parse(body);
-        console.log(body);
         dbs.connectToDB(connection, body, body.command, res);
     });
 
