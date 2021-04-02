@@ -15,6 +15,7 @@ $(document).ready(function() {
 	document.getElementById("add").addEventListener("click", function() {
 		makeQuestion();
 	});
+	loadMovies();
   }
 );
 
@@ -289,7 +290,7 @@ function queryData(data, command, parent=null) {
 		xhttp.open("PUT", url, true);
 	else
 	    xhttp.open("POST", url, true);
-    	xhttp.setRequestHeader("Content-type", "text/plain");
-    	xhttp.send(stringData);
-		return qID;
+	xhttp.setRequestHeader("Content-type", "text/plain");
+	xhttp.send(stringData);
+	return qID;
 }
