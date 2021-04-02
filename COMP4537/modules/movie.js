@@ -65,6 +65,16 @@ function getMovieById(connection, response, id) {
     connection.execSql(requestSelect);
 }
 
+function deleteMovieById(connection, response, id) {
+    let DELETEMOVIE = `DELETE FROM movies WHERE movieId = ${id}`;
+    let requestDelete = new Request(DELETEMOVIE, function(err) {
+        if(err) throw err;
+    });
+
+    connection.execSql(requestDelete);
+    console.log("Deletion completed!");
+}
+
 app.get(endPoint + "movie",  function(req, res) {
     console.log('Getting movies');
     getMovies(connection, res);
@@ -77,7 +87,6 @@ app.post(endPoint + "movie",  function(req, res) {
         body += data;
         body = JSON.parse(body);
         console.log(body);
-        
     });
 
     req.on('end', () => {
@@ -86,8 +95,14 @@ app.post(endPoint + "movie",  function(req, res) {
 });
 
 app.get(endPoint + "movie/:id",  function(req, res) {
-    console.log('Getting specified movie');
+    console.log('Getting specified movie with id: ' + req.params.id);
     getMovieById(connection, res, req.params.id);
 });
+
+app.delete(endPoint + "movie/:id",  function(req, res) {
+    console.log('Deleting specified movie with id: ' + req.params.id);
+    deleteMovieById(connection, res, req.params.id);
+});
+
 
 module.exports = app;
