@@ -18,7 +18,8 @@ function getMovies(connection, response) {
             'movieId': columns[0].value,
             'title': columns[1].value,
             'year': columns[2].value,
-            'genre': columns[3].value
+            'genre': columns[3].value,
+            'reviewId': columns[4].value
         }
         movie_info.push(movie);
     })
@@ -55,11 +56,34 @@ function getMovieById(connection, response, id) {
         movie_info['movieId'] = columns[0].value,
         movie_info['title'] = columns[1].value,
         movie_info['year'] = columns[2].value,
-        movie_info['genre'] = columns[3].value
+        movie_info['genre'] = columns[3].value,
+        movie_info['reviewId'] = columns[4].value
     })
 
     requestSelect.on('requestCompleted', function() {
         response.send(JSON.stringify(movie_info));
+    });
+
+    connection.execSql(requestSelect);
+}
+
+function updateMovie(connection, response, movieInfo) {
+    const UPDATEMOVIE = `UPDATE movies SET title = '${movieInfo.title}', year = ${movieInfo.year}, genre = '${movieInfo.genre}', reviewId = ${movieInfo.reviewId} WHERE movieId = ${movieInfo.id}`;
+    let movie_info = {};
+    let requestSelect = new Request(UPDATEMOVIE, function(err, result) {
+        if(err) throw err;
+    })
+    
+    requestSelect.on('row', (columns) => {
+        movie_info['movieId'] = columns[0].value,
+        movie_info['title'] = columns[1].value,
+        movie_info['year'] = columns[2].value,
+        movie_info['genre'] = columns[3].value,
+        movie_info['reviewId'] = columns[4].value
+    })
+
+    requestSelect.on('requestCompleted', function() {
+        getMovieById(connection, response, movieInfo.id)
     });
 
     connection.execSql(requestSelect);
@@ -91,6 +115,20 @@ app.post(endPoint + "movie",  function(req, res) {
 
     req.on('end', () => {
         addMovie(connection, res, body);
+    });
+});
+
+app.put(endPoint + "movie/:id",  function(req, res) {
+    console.log('Updating specified movie with id: ' + req.params.id);
+    let body = '';
+    req.on('data', data => {
+        body += data;
+        body = JSON.parse(body);
+        console.log(body);
+    });
+
+    req.on('end', () => {
+        updateMovie(connection, res, body);
     });
 });
 

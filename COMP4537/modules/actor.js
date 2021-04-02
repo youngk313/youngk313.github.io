@@ -64,6 +64,27 @@ function getActorById(connection, response, id) {
     connection.execSql(requestSelect);
 }
 
+function updateActor(connection, response, actorInfo) {
+    const UPDATEACTOR = `UPDATE actors SET fullname = '${actorInfo.fullname}', age = ${actorInfo.age}, pictureURL = '${actorInfo.pictureURL}' WHERE actorId = ${actorInfo.id}`;
+    let actor_info = {};
+    let requestSelect = new Request(UPDATEACTOR, function(err, result) {
+        if(err) throw err;
+    })
+    
+    requestSelect.on('row', (columns) => {
+        actor_info['actorId'] = columns[0].value,
+        actor_info['fullname'] = columns[1].value,
+        actor_info['age'] = columns[2].value,
+        actor_info['pictureURL'] = columns[3].value
+    })
+
+    requestSelect.on('requestCompleted', function() {
+        getActorById(connection, response, actorInfo.id)
+    });
+
+    connection.execSql(requestSelect);
+}
+
 function deleteActorById(connection, response, id) {
     let DELETEACTOR = `DELETE FROM actors WHERE actorId = ${id}`;
     let requestDelete = new Request(DELETEACTOR, function(err) {
@@ -92,6 +113,21 @@ app.post(endPoint + "actor",  function(req, res) {
         addActor(connection, res, body);
     });
 });
+
+app.put(endPoint + "actor/:id",  function(req, res) {
+    console.log('Updating specified actor with id: ' + req.params.id);
+    let body = '';
+    req.on('data', data => {
+        body += data;
+        body = JSON.parse(body);
+        console.log(body);
+    });
+
+    req.on('end', () => {
+        updateActor(connection, res, body);
+    });
+});
+
 
 app.get(endPoint + "actor/:id",  function(req, res) {
     console.log('Getting specified actor with id: ' + req.params.id);
