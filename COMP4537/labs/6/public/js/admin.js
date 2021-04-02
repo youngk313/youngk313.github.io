@@ -22,15 +22,19 @@ function updateAnswers(select, qNumber) {
 	let totalAns = select.value;
 	let question = select.parentNode;
 	let existing = []; 
+	for (let b = 1; b <= 3; ++b)
+		question.removeChild(question.lastChild);
 	for (child of question.childNodes) {
 		console.log(child)
-		if (child.tagName === "INPUT" || child.className === "noresize answers")
+		if (child.className === "noresize answers")
 			existing.push(child)
 	}
 	let currentAns = existing.length;
-	if (currentAns / 2 <= totalAns) {
-		console.log("adding answers")
-		for (let i = currentAns / 2; i < totalAns; ++i) {
+	if (currentAns <= totalAns) {
+		console.log("adding answers");
+		// removing buttons
+
+		for (let i = currentAns; i < totalAns; ++i) {
 			let newInput = document.createElement("INPUT");
 			newInput.setAttribute("type", "radio");
 			newInput.setAttribute("name", "question" + qNumber);
@@ -43,13 +47,33 @@ function updateAnswers(select, qNumber) {
 			question.appendChild(newTextArea);
 			question.appendChild(document.createElement("BR"));
 		}
+			
 	} else {
 		console.log("deleting answers")
-		for (let i = currentAns / 2; i > totalAns; --i) {
+		for (let i = currentAns; i > totalAns; --i) {
 			for (let j = 0; j < 3; ++j)
 				question.removeChild(question.lastChild);
 		}
 	}
+	
+	let saveButton = readdButton("btn btn-success qButton", "quiz", "saveQuestion(this)", "Save")
+
+	let updateButton = readdButton("btn btn-primary qButton", "quiz", "updateQuestion(this)", "Update")
+
+	let deleteButton = readdButton("btn btn-danger qButton", "quiz", "deleteQuestion(this)", "Delete")
+
+	question.appendChild(saveButton);
+	question.appendChild(updateButton);
+	question.appendChild(deleteButton);
+}
+
+function readdButton(classname, name, onclick, text) {
+	let button = document.createElement("BUTTON");
+	button.setAttribute("class", classname);
+	button.setAttribute("name", name);
+	button.setAttribute("onclick", onclick);
+	button.innerHTML = text;
+	return button;
 }
 
 function makeChoices(qNumber, id="id", question="") {

@@ -88,9 +88,7 @@ function updateAnswers(connection, q) {
     let newRequest = new Request(UPDATEANS, function(err) {
         if (err) throw err;
     });
-
     connection.execSql(newRequest);
-    
 }
 
 function deleteQuestion(connection, q) {
