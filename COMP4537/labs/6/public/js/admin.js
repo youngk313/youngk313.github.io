@@ -15,7 +15,7 @@ $(document).ready(function() {
 	document.getElementById("add").addEventListener("click", function() {
 		makeQuestion();
 	});
-	loadMovies();
+
   }
 );
 
