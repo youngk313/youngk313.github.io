@@ -67,7 +67,7 @@ app.put('/COMP4537/labs/6/admin.html', function(req, res) {
         body = JSON.parse(body);
         dbs.connectToDB(connection, body, body.command, res);
     });
-    app.use(express.static(__dirname + '/COMP4537/labs/6/public'));
+    
 });
 
 
