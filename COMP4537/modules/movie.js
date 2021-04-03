@@ -7,6 +7,13 @@ const endPoint = "/API/v1/"
 
 connection = dbs.createConnection();
 
+let requestCount = {
+    "movie": {
+        'GET': 0,
+        'POST': 0,
+    }
+};
+
 class Movie {
     constructor(movieInfo) {
         this.movieId = movieInfo[0].value;
@@ -28,7 +35,16 @@ function getMovies(connection, response) {
     })
 
     requestSelect.on('requestCompleted', function() {
-        response.send(JSON.stringify(movie_info));
+        if (movie_info.length > 0) {
+            response.status(200);
+            requestCount.movie.GET++;
+            console.log(requestCount.movie.GET);
+            response.send(JSON.stringify(movie_info));
+        }
+        else {
+            response.status(404);
+            response.send("No movies in database");
+        }
     });
 
     connection.execSql(requestSelect);
@@ -53,14 +69,19 @@ function getMovieById(connection, response, id) {
     const Q_MOVIES = `SELECT * FROM movies WHERE movieId = ${id}`;
     let movie_info;
     let requestSelect = new Request(Q_MOVIES, function(err, result) {
-        if(err) throw err;
+        if(err) throw err;  
     })
     requestSelect.on('row', (columns) => {
         movie_info = new Movie(columns);
     })
 
     requestSelect.on('requestCompleted', function() {
-        response.send(JSON.stringify(movie_info));
+        if (movie_info == undefined) {
+            response.status(404);
+            response.send("Movie does not exist in database");
+        } else {
+            response.send(JSON.stringify(movie_info));
+        }
     });
 
     connection.execSql(requestSelect);
@@ -83,7 +104,6 @@ function getMoviesByGenre(connection, response, genre) {
 
     connection.execSql(requestSelect);
 }
-
 
 function updateMovie(connection, response, movieInfo) {
     const UPDATEMOVIE = `UPDATE movies SET title = '${movieInfo.title}', year = ${movieInfo.year}, genre = '${movieInfo.genre}', reviewId = ${movieInfo.reviewId} WHERE movieId = ${movieInfo.id}`;
@@ -153,7 +173,18 @@ app.get(endPoint + "movie/genres/:genre",  function(req, res) {
 
 app.get(endPoint + "movie/:id",  function(req, res) {
     console.log('Getting specified movie with id: ' + req.params.id);
-    getMovieById(connection, res, req.params.id);
+    try {
+        getMovieById(connection, res, req.params.id);
+    }
+    catch(e) {
+        if (e instanceof ReferenceError) {
+            res.status(500);
+            res.send("Could not connect to database");
+        } else if (e instanceof RequestError) {
+            res.status(400);
+            res.send("Disconnected from database");
+        }
+    }
 });
 
 app.delete(endPoint + "movie/:id",  function(req, res) {
