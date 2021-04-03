@@ -52,13 +52,9 @@ function getMovies(connection, response) {
 
 function addMovie(connection, response, movieInfo) {
     const INSERTMOVIE = `IF NOT EXISTS (SELECT * FROM movies WHERE title = '${movieInfo.title}')
-    INSERT INTO movies (title, year, genre, reviewId) VALUES ('${movieInfo.title}', ${movieInfo.year}, '${movieInfo.genre}', ${movieInfo.reviewId});`;
+    INSERT INTO movies (title, year, genre) VALUES ('${movieInfo.title}', ${movieInfo.year}, '${movieInfo.genre}');`;
     let requestInsert = new Request(INSERTMOVIE, function(err) {
         if(err) throw err;
-    });
-
-    requestInsert.on('requestCompleted', function() {
-        
     });
 
     connection.execSql(requestInsert);
@@ -106,7 +102,7 @@ function getMoviesByGenre(connection, response, genre) {
 }
 
 function updateMovie(connection, response, movieInfo) {
-    const UPDATEMOVIE = `UPDATE movies SET title = '${movieInfo.title}', year = ${movieInfo.year}, genre = '${movieInfo.genre}', reviewId = ${movieInfo.reviewId} WHERE movieId = ${movieInfo.id}`;
+    const UPDATEMOVIE = `UPDATE movies SET title = '${movieInfo.title}', year = ${movieInfo.year}, genre = '${movieInfo.genre}' WHERE movieId = ${movieInfo.id}`;
     let movie_info;
     let requestSelect = new Request(UPDATEMOVIE, function(err, result) {
         if(err) throw err;
