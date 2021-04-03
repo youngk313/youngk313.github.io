@@ -7,6 +7,15 @@ const endPoint = "/API/v1/"
 
 connection = dbs.createConnection();
 
+class Movie {
+    constructor(movieInfo) {
+        this.movieId = movieInfo[0].value;
+        this.title = movieInfo[1].value;
+        this.year = movieInfo[2].value;
+        this.genre = movieInfo[3].value;
+    }
+}
+
 function getMovies(connection, response) {
     const Q_MOVIES = `SELECT * FROM movies`;
     let movie_info = [];
@@ -14,13 +23,7 @@ function getMovies(connection, response) {
         if(err) throw err;
     })
     requestSelect.on('row', (columns) => {
-        let movie = {
-            'movieId': columns[0].value,
-            'title': columns[1].value,
-            'year': columns[2].value,
-            'genre': columns[3].value,
-            'reviewId': columns[4].value
-        }
+        let movie = new Movie(columns);
         movie_info.push(movie);
     })
 
@@ -48,16 +51,12 @@ function addMovie(connection, response, movieInfo) {
 
 function getMovieById(connection, response, id) {
     const Q_MOVIES = `SELECT * FROM movies WHERE movieId = ${id}`;
-    let movie_info = {};
+    let movie_info;
     let requestSelect = new Request(Q_MOVIES, function(err, result) {
         if(err) throw err;
     })
     requestSelect.on('row', (columns) => {
-        movie_info['movieId'] = columns[0].value,
-        movie_info['title'] = columns[1].value,
-        movie_info['year'] = columns[2].value,
-        movie_info['genre'] = columns[3].value,
-        movie_info['reviewId'] = columns[4].value
+        movie_info = new Movie(columns);
     })
 
     requestSelect.on('requestCompleted', function() {
@@ -67,19 +66,34 @@ function getMovieById(connection, response, id) {
     connection.execSql(requestSelect);
 }
 
+function getMoviesByGenre(connection, response, genre) {
+    const Q_MOVIES = `SELECT * FROM movies WHERE genre = '${genre}'`;
+    let movie_info = [];
+    let requestSelect = new Request(Q_MOVIES, function(err, result) {
+        if(err) throw err;
+    })
+    requestSelect.on('row', (columns) => {
+        let movie = new Movie(columns);
+        movie_info.push(movie);
+    })
+
+    requestSelect.on('requestCompleted', function() {
+        response.send(JSON.stringify(movie_info));
+    });
+
+    connection.execSql(requestSelect);
+}
+
+
 function updateMovie(connection, response, movieInfo) {
     const UPDATEMOVIE = `UPDATE movies SET title = '${movieInfo.title}', year = ${movieInfo.year}, genre = '${movieInfo.genre}', reviewId = ${movieInfo.reviewId} WHERE movieId = ${movieInfo.id}`;
-    let movie_info = {};
+    let movie_info;
     let requestSelect = new Request(UPDATEMOVIE, function(err, result) {
         if(err) throw err;
     })
     
     requestSelect.on('row', (columns) => {
-        movie_info['movieId'] = columns[0].value,
-        movie_info['title'] = columns[1].value,
-        movie_info['year'] = columns[2].value,
-        movie_info['genre'] = columns[3].value,
-        movie_info['reviewId'] = columns[4].value
+        movie_info = new Movie(columns);
     })
 
     requestSelect.on('requestCompleted', function() {
@@ -130,6 +144,11 @@ app.put(endPoint + "movie/:id",  function(req, res) {
     req.on('end', () => {
         updateMovie(connection, res, body);
     });
+});
+
+app.get(endPoint + "movie/genres/:genre",  function(req, res) {
+    console.log('Getting specified movie with genre: ' + req.params.genre);
+    getMoviesByGenre(connection, res, req.params.genre);
 });
 
 app.get(endPoint + "movie/:id",  function(req, res) {

@@ -1,10 +1,16 @@
-const dbs = require('./connect');
 const Request = require('tedious').Request;
 
 const app = require('./movie');
 const endPoint = "/API/v1/"
 
-connection = dbs.createConnection();
+class Actor {
+    constructor(actorInfo) {
+        this.actorId = actorInfo[0].value;
+        this.fullname = actorInfo[1].value;
+        this.age = actorInfo[2].value;
+        this.pictureURL = actorInfo[3].value;
+    }
+}
 
 function getActors(connection, response) {
     const Q_ACTORS = `SELECT * FROM actors`;
@@ -13,12 +19,7 @@ function getActors(connection, response) {
         if(err) throw err;
     })
     requestSelect.on('row', (columns) => {
-        let actor = {
-            'actorId': columns[0].value,
-            'fullname': columns[1].value,
-            'age': columns[2].value,
-            'pictureURL': columns[3].value
-        }
+        let actor = new Actor(columns);
         actor_info.push(actor);
     })
 
@@ -46,15 +47,12 @@ function addActor(connection, response, actorInfo) {
 
 function getActorById(connection, response, id) {
     const GETACTOR = `SELECT * FROM actors WHERE actorId = ${id}`;
-    let actor_info = {};
+    let actor_info;
     let requestSelect = new Request(GETACTOR, function(err, result) {
         if(err) throw err;
     })
     requestSelect.on('row', (columns) => {
-        actor_info['actorId'] = columns[0].value,
-        actor_info['fullname'] = columns[1].value,
-        actor_info['age'] = columns[2].value,
-        actor_info['pictureURL'] = columns[3].value
+        actor_info = new Actor(columns);
     })
 
     requestSelect.on('requestCompleted', function() {
@@ -66,16 +64,13 @@ function getActorById(connection, response, id) {
 
 function updateActor(connection, response, actorInfo) {
     const UPDATEACTOR = `UPDATE actors SET fullname = '${actorInfo.fullname}', age = ${actorInfo.age}, pictureURL = '${actorInfo.pictureURL}' WHERE actorId = ${actorInfo.id}`;
-    let actor_info = {};
+    let actor_info;
     let requestSelect = new Request(UPDATEACTOR, function(err, result) {
         if(err) throw err;
     })
     
     requestSelect.on('row', (columns) => {
-        actor_info['actorId'] = columns[0].value,
-        actor_info['fullname'] = columns[1].value,
-        actor_info['age'] = columns[2].value,
-        actor_info['pictureURL'] = columns[3].value
+        actor_info = new Actor(columns);
     })
 
     requestSelect.on('requestCompleted', function() {
@@ -127,7 +122,6 @@ app.put(endPoint + "actor/:id",  function(req, res) {
         updateActor(connection, res, body);
     });
 });
-
 
 app.get(endPoint + "actor/:id",  function(req, res) {
     console.log('Getting specified actor with id: ' + req.params.id);
