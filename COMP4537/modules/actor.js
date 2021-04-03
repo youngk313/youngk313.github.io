@@ -3,8 +3,6 @@ const Request = require('tedious').Request;
 const app = require('./movie');
 const endPoint = "/API/v1/"
 
-connection = dbs.createConnection();
-
 class Actor {
     constructor(actorInfo) {
         this.actorId = actorInfo[0].value;
