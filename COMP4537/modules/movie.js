@@ -38,8 +38,8 @@ function getMovies(connection, response) {
         if (movie_info.length > 0) {
             response.status(200);
             requestCount.movie.GET++;
-            console.log(requestCount.movie.GET);
-            response.send(JSON.stringify(movie_info));
+
+            response.send(String(requestCount.movie.GET) + JSON.stringify(movie_info));
         }
         else {
             response.status(404);
