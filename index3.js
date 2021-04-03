@@ -3,11 +3,10 @@ const fs = require('fs');
 const path = require('path');
 const url = require('url');
 const dbs = require('./COMP4537/labs/6/public/js/sendToServer');
-const app = require('./COMP4537/modules/movie');
+const app = require('./COMP4537/modules/actor');
 
 const port = process.env.PORT || 8080;
 
-const connection = dbs.createConnection();
 // allows all origins and methods for requests
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
