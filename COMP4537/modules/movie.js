@@ -57,6 +57,16 @@ function addMovie(connection, response, movieInfo) {
         if(err) throw err;
     });
 
+    requestSelect.on('requestCompleted', function() {
+        if (movie_info == undefined) {
+            response.status(400);
+            response.send("Cannot add this movie!");
+        } else {
+            response.status(200);
+            response.send("Successfully added movie");
+        }
+    });
+
     connection.execSql(requestInsert);
     console.log("Insertion completed!");
 }
