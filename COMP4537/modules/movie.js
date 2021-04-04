@@ -62,10 +62,10 @@ function addMovie(connection, response, movieInfo) {
 
     requestInsert.on('requestCompleted', function() {   
         requestCount.movie.POST++;
-            let final_data = {
-                "num_req": requestCount.movie.GET,
-                "message": "Successfully added movie",
-            }
+        let final_data = {
+            "num_req": requestCount.movie.POST,
+            "message": "Successfully added movie",
+        }
         response.status(200);
         response.send(JSON.stringify(final_data));
     });
