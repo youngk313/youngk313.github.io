@@ -38,11 +38,7 @@ function getMovies(connection, response) {
         if (movie_info.length > 0) {
             response.status(200);
             requestCount.movie.GET++;
-            let final_data = {
-                "num_req": requestCount.movie.GET,
-                "movies": movie_info,
-            }
-            response.send(JSON.stringify(final_data));
+            response.send(JSON.stringify(movie_info));
         }
         else {
             response.status(404);
@@ -62,12 +58,8 @@ function addMovie(connection, response, movieInfo) {
 
     requestInsert.on('requestCompleted', function() {   
         requestCount.movie.POST++;
-        let final_data = {
-            "num_req": requestCount.movie.POST,
-            "message": "Successfully added movie",
-        }
         response.status(200);
-        response.send(JSON.stringify(final_data));
+        response.send("Added movie successfully");
     });
 
     connection.execSql(requestInsert);
@@ -177,6 +169,11 @@ app.put(endPoint + "movie/:id",  function(req, res) {
     req.on('end', () => {
         updateMovie(connection, res, body);
     });
+});
+
+app.get(endPoint + "movie/requests", function(req, res) {
+    console.log("Returning number of requests");
+    res.send(JSON.stringify(requestCount));
 });
 
 app.get(endPoint + "movie/genres/:genre",  function(req, res) {

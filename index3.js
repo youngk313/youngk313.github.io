@@ -8,12 +8,6 @@ const app = require('./COMP4537/modules/actor');
 const port = process.env.PORT || 8080;
 
 // allows all origins and methods for requests
-app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-    res.header('Access-Control-Allow-Methods', '*');
-    next();
-});
 
 app.use(express.json());
 
@@ -71,6 +65,10 @@ app.put('/COMP4537/labs/6/admin.html', function(req, res) {
         console.log(body)
         dbs.connectToDB(connection, body, body.command, res);
     })
+});
+
+app.get('/API/v1/documentation.html', function(req, res) {
+    res.sendFile(__dirname + '/COMP4537/comp4537_api.json');
 });
 
 app.post('/COMP4537/labs/6/admin.html', function(req, res) {
