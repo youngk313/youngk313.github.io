@@ -130,9 +130,9 @@ function deleteMovieById(connection, response, id) {
 }
 
 app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-    res.header('Access-Control-Allow-Methods', '*');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+    res.setHeader('Access-Control-Allow-Methods', '*');
     next();
 });
 
@@ -148,9 +148,6 @@ app.post(endPoint + "movie",  function(req, res) {
         body += data;
         body = JSON.parse(body);
         console.log(body);
-    });
-
-    req.on('end', () => {
         addMovie(connection, res, body);
     });
 });
