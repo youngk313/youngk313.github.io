@@ -38,8 +38,11 @@ function getMovies(connection, response) {
         if (movie_info.length > 0) {
             response.status(200);
             requestCount.movie.GET++;
-
-            response.send(String(requestCount.movie.GET) + JSON.stringify(movie_info));
+            let final_data = {
+                "num_req": requestCount.movie.GET,
+                "movies": movie_info,
+            }
+            response.send(JSON.stringify(final_data));
         }
         else {
             response.status(404);
@@ -58,8 +61,13 @@ function addMovie(connection, response, movieInfo) {
     });
 
     requestInsert.on('requestCompleted', function() {   
+        requestCount.movie.POST++;
+            let final_data = {
+                "num_req": requestCount.movie.GET,
+                "message": "Successfully added movie",
+            }
         response.status(200);
-        response.send("Successfully added movie");
+        response.send(JSON.stringify(final_data));
     });
 
     connection.execSql(requestInsert);
