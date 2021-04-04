@@ -783,7 +783,8 @@
           "format": "int64"
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "example": "Christian Bale"
         },
         "age": {
           "type": "integer",
@@ -814,7 +815,7 @@
         },
         "name": {
           "type": "string",
-          "example": "doggie"
+          "example": "The Dark Knight"
         },
         "year": {
           "type": "integer",
