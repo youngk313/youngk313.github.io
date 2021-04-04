@@ -32,7 +32,7 @@ function getMovies(connection, response) {
     requestSelect.on('row', (columns) => {
         let movie = new Movie(columns);
         movie_info.push(movie);
-    })
+    });
 
     requestSelect.on('requestCompleted', function() {
         if (movie_info.length > 0) {
@@ -57,7 +57,7 @@ function addMovie(connection, response, movieInfo) {
         if(err) throw err;
     });
 
-    requestSelect.on('requestCompleted', function() {
+    requestInsert.on('requestCompleted', function() {
         if (movie_info == undefined) {
             response.status(400);
             response.send("Cannot add this movie!");
