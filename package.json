@@ -11,7 +11,9 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-openid-connect": "^2.3.0",
     "mysql": "git://github.com/mysqljs/mysql#e3e123e9af7c0829a6c1417d911572a75b4a5f95",
+    "swagger-ui-dist": "^3.46.0",
     "tedious": "^11.0.5"
   }
 }
