@@ -3,13 +3,12 @@ const fs = require('fs');
 const path = require('path');
 const url = require('url');
 const dbs = require('./COMP4537/labs/6/public/js/sendToServer');
-const app = require('./COMP4537/modules/actor');
+const app = require('./COMP4537/modules/cast');
+const { auth } = require('express-openid-connect');
 
 const port = process.env.PORT || 8080;
 
 // allows all origins and methods for requests
-
-app.use(express.json());
 
 app.get('/', function(req, res) {
     res.sendFile(__dirname + "/index.html");

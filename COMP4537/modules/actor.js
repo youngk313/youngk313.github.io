@@ -1,16 +1,9 @@
 const Request = require('tedious').Request;
-
+const dbs = require('./connect');
 const app = require('./movie');
 const endPoint = "/API/v1/"
 
-class Actor {
-    constructor(actorInfo) {
-        this.actorId = actorInfo[0].value;
-        this.fullname = actorInfo[1].value;
-        this.age = actorInfo[2].value;
-        this.pictureURL = actorInfo[3].value;
-    }
-}
+connection = dbs.createConnection();
 
 function getActors(connection, response) {
     const Q_ACTORS = `SELECT * FROM actors`;
@@ -38,7 +31,8 @@ function addActor(connection, response, actorInfo) {
     });
 
     requestInsert.on('requestCompleted', function() {
-        
+        response.status(200)
+        response.send("Actor added successfully")
     });
 
     connection.execSql(requestInsert);
@@ -74,7 +68,8 @@ function updateActor(connection, response, actorInfo) {
     })
 
     requestSelect.on('requestCompleted', function() {
-        getActorById(connection, response, actorInfo.id)
+        response.status(200);
+        response.send("Successfully updated actor entry");
     });
 
     connection.execSql(requestSelect);
@@ -84,6 +79,11 @@ function deleteActorById(connection, response, id) {
     let DELETEACTOR = `DELETE FROM actors WHERE actorId = ${id}`;
     let requestDelete = new Request(DELETEACTOR, function(err) {
         if(err) throw err;
+    });
+
+    requestSelect.on('requestCompleted', function() {
+        response.status(200);
+        response.send("Successfully deleted actor entry");
     });
 
     connection.execSql(requestDelete);
@@ -105,7 +105,13 @@ app.post(endPoint + "actor",  function(req, res) {
     });
 
     req.on('end', () => {
-        addActor(connection, res, body);
+        try {
+            addActor(connection, res, body);
+        } catch(e) {
+            res.status(500);
+            res.send("Error: Server can't handle that many requests")
+        }
+        
     });
 });
 

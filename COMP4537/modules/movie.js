@@ -1,6 +1,8 @@
 const express = require('express');
 const dbs = require('./connect');
 const Request = require('tedious').Request;
+const { requiresAuth, auth } = require('express-openid-connect');
+const classes = require('./classes');
 
 const app = express();
 const endPoint = "/API/v1/"
@@ -11,17 +13,19 @@ let requestCount = {
     "movie": {
         'GET': 0,
         'POST': 0,
-    }
+    }, 
 };
 
-class Movie {
-    constructor(movieInfo) {
-        this.movieId = movieInfo[0].value;
-        this.title = movieInfo[1].value;
-        this.year = movieInfo[2].value;
-        this.genre = movieInfo[3].value;
-    }
-}
+const auth_config = {
+    authRequired: false,
+    auth0Logout: true,
+    secret: 'something about this is crazy',
+    baseURL: 'http://localhost:8080/',
+    clientID: '65VQmIgmQfnpd1Le3r3HpjviSfI8SGxt',
+    issuerBaseURL: 'https://dev-aj5gwo7g.us.auth0.com'
+};
+
+app.use(auth(auth_config));
 
 function getMovies(connection, response) {
     const Q_MOVIES = `SELECT * FROM movies`;
@@ -30,7 +34,7 @@ function getMovies(connection, response) {
         if(err) throw err;
     })
     requestSelect.on('row', (columns) => {
-        let movie = new Movie(columns);
+        let movie = new classes.Movie(columns);
         movie_info.push(movie);
     });
 
@@ -118,7 +122,8 @@ function updateMovie(connection, response, movieInfo) {
     })
 
     requestSelect.on('requestCompleted', function() {
-        getMovieById(connection, response, movieInfo.id)
+        response.status(200);
+        response.send("Successfully updated movie entry");
     });
 
     connection.execSql(requestSelect);
@@ -128,6 +133,11 @@ function deleteMovieById(connection, response, id) {
     let DELETEMOVIE = `DELETE FROM movies WHERE movieId = ${id}`;
     let requestDelete = new Request(DELETEMOVIE, function(err) {
         if(err) throw err;
+    });
+
+    requestSelect.on('requestCompleted', function() {
+        response.status(200);
+        response.send("Successfully deleted movie entry");
     });
 
     connection.execSql(requestDelete);
@@ -141,7 +151,7 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.get(endPoint + "movie",  function(req, res) {
+app.get(endPoint + "movie", requiresAuth(), function(req, res) {
     console.log('Getting movies');
     getMovies(connection, res);
 });
