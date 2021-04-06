@@ -99,7 +99,7 @@ function getMoviesByGenre(connection, response, genre) {
         if(err) throw err;
     })
     requestSelect.on('row', (columns) => {
-        let movie = new Movie(columns);
+        let movie = new classes.Movie(columns);
         movie_info.push(movie);
     })
 
@@ -118,7 +118,7 @@ function updateMovie(connection, response, movieInfo) {
     })
     
     requestSelect.on('row', (columns) => {
-        movie_info = new Movie(columns);
+        movie_info = new classes.Movie(columns);
     })
 
     requestSelect.on('requestCompleted', function() {
