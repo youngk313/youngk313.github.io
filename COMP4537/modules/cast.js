@@ -22,12 +22,11 @@ function addCast(connection, response, castInfo) {
     let requestInsert = new Request(INSERTCAST, function(err) {
         if(err)  {
             err_flag = true 
+            response.status(418);
             if (err.message.includes("actor_pk")) {
-                response.status(418);
                 response.send("ERROR: Actor doesn't exist in the database. Add the actor first.")
             }
             else if (err.message.includes("movie_pk")) {
-                response.status(418)
                 response.send("ERROR: Movie doesn't exist in the database. Add the movie first.")
             }
             console.log("Insert failed")

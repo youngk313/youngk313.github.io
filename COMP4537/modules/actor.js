@@ -1,6 +1,7 @@
 const Request = require('tedious').Request;
 const dbs = require('./connect');
 const app = require('./movie');
+const classes = require('./classes');
 const endPoint = "/API/v1/"
 
 connection = dbs.createConnection();
@@ -12,7 +13,7 @@ function getActors(connection, response) {
         if(err) throw err;
     })
     requestSelect.on('row', (columns) => {
-        let actor = new Actor(columns);
+        let actor = new classes.Actor(columns);
         actor_info.push(actor);
     })
 
@@ -46,7 +47,7 @@ function getActorById(connection, response, id) {
         if(err) throw err;
     })
     requestSelect.on('row', (columns) => {
-        actor_info = new Actor(columns);
+        actor_info = new classes.Actor(columns);
     })
 
     requestSelect.on('requestCompleted', function() {
@@ -64,7 +65,7 @@ function updateActor(connection, response, actorInfo) {
     })
     
     requestSelect.on('row', (columns) => {
-        actor_info = new Actor(columns);
+        actor_info = new classes.Actor(columns);
     })
 
     requestSelect.on('requestCompleted', function() {
