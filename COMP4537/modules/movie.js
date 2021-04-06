@@ -151,7 +151,7 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.get(endPoint + "movie", requiresAuth(), function(req, res) {
+app.get(endPoint + "movie", function(req, res) {
     console.log('Getting movies');
     getMovies(connection, res);
 });
