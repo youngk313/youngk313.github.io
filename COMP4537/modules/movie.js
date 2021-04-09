@@ -171,7 +171,7 @@ app.get(endPoint + "movie", function(req, res) {
     getMovies(connection, res);
 });
 
-app.post(endPoint + "movie", checkJwt, function(req, res) {
+app.post(endPoint + "movie", function(req, res) {
     console.log('Adding a movie');
     let body = '';
     req.on('data', data => {
@@ -182,7 +182,7 @@ app.post(endPoint + "movie", checkJwt, function(req, res) {
     });
 });
 
-app.put(endPoint + "movie/:id", checkJwt, function(req, res) {
+app.put(endPoint + "movie/:id", function(req, res) {
     console.log('Updating specified movie with id: ' + req.params.id);
     let body = '';
     req.on('data', data => {
@@ -222,7 +222,7 @@ app.get(endPoint + "movie/:id", function(req, res) {
     }
 });
 
-app.delete(endPoint + "movie/:id", checkJwt, function(req, res) {
+app.delete(endPoint + "movie/:id", function(req, res) {
     console.log('Deleting specified movie with id: ' + req.params.id);
     deleteMovieById(connection, res, req.params.id);
 });

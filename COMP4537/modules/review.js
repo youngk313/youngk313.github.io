@@ -107,7 +107,7 @@ app.get(endPoint + "review/requests", checkJwt, function(req, res) {
     res.send(JSON.stringify(reviewRequest));
 });
 
-app.post(endPoint + "review", checkJwt, function(req, res) {
+app.post(endPoint + "review", function(req, res) {
     console.log('Adding a review!');
     let body = '';
     req.on('data', data => {
@@ -121,7 +121,7 @@ app.post(endPoint + "review", checkJwt, function(req, res) {
     });
 });
 
-app.put(endPoint + "review/:id", checkJwt, function(req, res) {
+app.put(endPoint + "review/:id", function(req, res) {
     console.log('Updating specified review with id: ' + req.params.id);
     let body = '';
     req.on('data', data => {

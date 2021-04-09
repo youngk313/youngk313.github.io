@@ -19,7 +19,7 @@ class Actor {
     constructor(actorInfo) {
         this.actorId = actorInfo[0].value;
         this.fullname = actorInfo[1].value;
-        this.age = actorInfo[2].value;
+        this.year = actorInfo[2].value;
         this.pictureURL = actorInfo[3].value;
     }
 }

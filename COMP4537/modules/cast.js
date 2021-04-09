@@ -50,7 +50,7 @@ function addCast(connection, response, castInfo) {
 } 
 
 function getCast(connection, response, movieId) {
-    const Q_CAST = `SELECT movies.movieId, title, year, genre, actors.actorId, fullname, age, pictureURL, act_role FROM ((cast INNER JOIN movies ON movies.movieId = ${movieId}) INNER JOIN actors ON actors.actorId = cast.actorId)`;
+    const Q_CAST = `SELECT movies.movieId, title, movies.year, genre, actors.actorId, fullname, actors.year, pictureURL, act_role FROM ((cast INNER JOIN movies ON movies.movieId = ${movieId}) INNER JOIN actors ON actors.actorId = cast.actorId)`;
     let cast_info = {'actors': [], 'roles':[]};
     let requestSelect = new Request(Q_CAST, function(err, result) {
         if(err) throw err;
@@ -81,7 +81,7 @@ app.get(endPoint + "cast/:id", function(req, res) {
     try{
         getCast(connection, res, req.params.id);
     } catch(e) {
-        if (e instanceof RequestError) {
+        if (e) {
             res.status(500)
             res.send("Error: server can't handle that many requests ")
         }
@@ -93,7 +93,7 @@ app.get(endPoint + "cast/requests", checkJwt, function(req, res) {
     res.send(JSON.stringify(request_count));
 });
 
-app.post(endPoint + "cast", checkJwt, function(req, res) {
+app.post(endPoint + "cast", function(req, res) {
     console.log('Adding the cast...');
     let body = '';
     req.on('data', data => {

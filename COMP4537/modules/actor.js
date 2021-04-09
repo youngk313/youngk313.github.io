@@ -32,9 +32,15 @@ function getActors(connection, response) {
     })
 
     requestSelect.on('requestCompleted', function() {
-        requestCount["actor"].GET++;
-        response.status(200)
-        response.send(JSON.stringify(actor_info));
+        if (actor_info.length > 0) {
+            response.status(200);
+            requestCount["actor"].GET++;
+            response.send(JSON.stringify(actor_info));
+        }
+        else {
+            response.status(404);
+            response.send("No actors in database");
+        }
     });
 
     connection.execSql(requestSelect);
@@ -42,7 +48,7 @@ function getActors(connection, response) {
 
 function addActor(connection, response, actorInfo) {
     const INSERTACTOR = `IF NOT EXISTS (SELECT * FROM actors WHERE fullname = @fullname)
-    INSERT INTO actors (fullname, age, pictureURL) VALUES (@fullname, @age, @URL);`;
+    INSERT INTO actors (fullname, year, pictureURL) VALUES (@fullname, @year, @URL);`;
     let requestInsert = new Request(INSERTACTOR, function(err) {
         if(err) throw err;
     });
@@ -54,7 +60,7 @@ function addActor(connection, response, actorInfo) {
     });
 
     requestInsert.addParameter('fullname', TYPES.VarChar, actorInfo.fullname);
-    requestInsert.addParameter('age', TYPES.Int, actorInfo.age);
+    requestInsert.addParameter('year', TYPES.Int, actorInfo.year);
     requestInsert.addParameter('URL', TYPES.VarChar, actorInfo.pictureURL);
     
     connection.execSql(requestInsert);
@@ -72,9 +78,15 @@ function getActorById(connection, response, id) {
     })
 
     requestSelect.on('requestCompleted', function() {
-        requestCount["actor/id"].GET++;
-        response.status(200);
-        response.send(JSON.stringify(actor_info));
+        if (actor_info.actors.length > 0) {
+            response.status(200);
+            requestCount["actor/id"].GET++;
+            response.send(JSON.stringify(actor_info));
+        }
+        else {
+            response.status(404);
+            response.send("No such cast in database");
+        }
     });
 
     requestSelect.addParameter('id', TYPES.Int, id);
@@ -82,7 +94,7 @@ function getActorById(connection, response, id) {
 }
 
 function updateActor(connection, response, actorInfo) {
-    const UPDATEACTOR = `UPDATE actors SET fullname = @fullname, age = @age, pictureURL = @pictureURL WHERE actorId = @id`;
+    const UPDATEACTOR = `UPDATE actors SET fullname = @fullname, year = @year, pictureURL = @pictureURL WHERE actorId = @id`;
     let actor_info;
     let requestUpdate = new Request(UPDATEACTOR, function(err, result) {
         if(err) throw err;
@@ -100,7 +112,7 @@ function updateActor(connection, response, actorInfo) {
 
     requestUpdate.addParameter('id', TYPES.Int, actorInfo.id);
     requestUpdate.addParameter('fullname', TYPES.VarChar, actorInfo.fullname);
-    requestUpdate.addParameter('age', TYPES.Int, actorInfo.age);
+    requestUpdate.addParameter('year', TYPES.Int, actorInfo.year);
     requestUpdate.addParameter('pictureURL', TYPES.VarChar, actorInfo.pictureURL);
 
     connection.execSql(requestUpdate);
@@ -149,7 +161,7 @@ app.post(endPoint + "actor", checkJwt, function(req, res) {
     });
 });
 
-app.put(endPoint + "actor/:id", checkJwt, function(req, res) {
+app.put(endPoint + "actor/:id", function(req, res) {
     console.log('Updating specified actor with id: ' + req.params.id);
     let body = '';
     req.on('data', data => {
@@ -165,7 +177,7 @@ app.get(endPoint + "actor/:id", function(req, res) {
     getActorById(connection, res, req.params.id);
 });
 
-app.delete(endPoint + "actor/:id", checkJwt, function(req, res) {
+app.delete(endPoint + "actor/:id", function(req, res) {
     console.log('Deleting specified actor with id: ' + req.params.id);
     deleteActorById(connection, res, req.params.id);
 });
