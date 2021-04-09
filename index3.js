@@ -187,7 +187,7 @@ app.post(endPoint + 'login', async (req, res) => {
 });
 
 app.use(function(err, req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', 'https://www.aleksandrasorokina.com/');
     res.setHeader('Access-Control-Allow-Headers', 'GET, PUT, POST, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Methods', 'Content-Type, Authorization, Content-Length, X-Requested-With');
     if (err.name === "UnauthorizedError") {
