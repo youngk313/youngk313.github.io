@@ -145,7 +145,7 @@ app.get(endPoint + "actor/requests", checkJwt, function(req, res) {
     res.send(JSON.stringify(requestCount));
 });
 
-app.post(endPoint + "actor", checkJwt, function(req, res) {
+app.post(endPoint + "actor", function(req, res) {
     console.log('Adding a new actor!');
     let body = '';
     req.on('data', data => {
