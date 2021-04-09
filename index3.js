@@ -186,6 +186,17 @@ app.post(endPoint + 'login', async (req, res) => {
     });
 });
 
+app.use(function(err, req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'GET, PUT, POST, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Methods', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+    if (err.name === "UnauthorizedError") {
+        res.status(401)
+        res.send("You are unauthorized to access this data")
+    }
+    next();
+});
+
 app.listen(port, () => {
     
 });

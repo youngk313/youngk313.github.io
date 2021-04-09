@@ -161,14 +161,7 @@ function deleteMovieById(connection, response, id) {
     console.log("Deletion completed!");
 }
 
-app.use(function(req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'GET, PUT, POST, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Methods', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-    next();
-});
-
-app.get(endPoint + "movie", checkJwt, function(req, res) {
+app.get(endPoint + "movie", function(req, res) {
     console.log('Getting movies');
     req.on('data', async (data) => {
         body += data;
