@@ -3,6 +3,7 @@ const classes = require('./classes');
 const Request = require('tedious').Request;
 const dbs = require('./connect');
 const { RequestError } = require('tedious');
+const checkJwt = require('./checkJWT');
 
 connection = dbs.createConnection();
 
@@ -16,8 +17,8 @@ let request_count = {
 }
 
 function addCast(connection, response, castInfo) {
-    const INSERTCAST = `IF NOT EXISTS (SELECT * FROM cast WHERE movieId = ${castInfo.movieId} AND actorId =${castInfo.actorId})
-    INSERT INTO cast (movieId, actorId, act_role) VALUES (${castInfo.movieId}, ${castInfo.actorId}, '${castInfo.role}');`;
+    const INSERTCAST = `IF NOT EXISTS (SELECT * FROM cast WHERE movieId = @movieId AND actorId = @actorId)
+    INSERT INTO cast (movieId, actorId, act_role) VALUES (@movieId, @actorId, @role);`;
     let err_flag;
     let requestInsert = new Request(INSERTCAST, function(err) {
         if(err)  {
@@ -35,13 +36,16 @@ function addCast(connection, response, castInfo) {
 
     requestInsert.on('requestCompleted', function() { 
         if (!err_flag) {
+            console.log("Insertion completed!");
             request_count['cast'].POST++;
             response.status(200);
             response.send("Added movie successfully");
-            console.log("Insertion completed!");
         }
     });
 
+    requestInsert.addParameter('movieId', TYPES.Int, castInfo.movieId);
+    requestInsert.addParameter('actorId', TYPES.Int, castInfo.actorId);
+    requestInsert.addParameter('role', TYPES.VarChar, castInfo.role);
     connection.execSql(requestInsert);
 } 
 
@@ -82,10 +86,14 @@ app.get(endPoint + "cast/:id", function(req, res) {
             res.send("Error: server can't handle that many requests ")
         }
     }
-    
 });
 
-app.post(endPoint + "cast",  function(req, res) {
+app.get(endPoint + "cast/requests", checkJwt, function(req, res) {
+    console.log("Returning number of requests");
+    res.send(JSON.stringify(request_count));
+});
+
+app.post(endPoint + "cast", checkJwt, function(req, res) {
     console.log('Adding the cast...');
     let body = '';
     req.on('data', data => {

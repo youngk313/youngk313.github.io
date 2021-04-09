@@ -20,6 +20,8 @@ function createConnection() {
     connection.on('connect', function(err) {
         if(err) throw err;
         console.log("Connected!");
+    }).on('errorMessage', function(err) {
+        console.log('Error');
     });
     connection.connect();
     return connection;

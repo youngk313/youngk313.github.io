@@ -1,5 +1,7 @@
 const Request = require('tedious').Request;
+const TYPES = require('tedious').TYPES;
 const classes = require('./classes');
+const checkJwt = require('./checkJWT');
 const dbs = require('./connect');
 
 const app = require('./actor');
@@ -9,6 +11,9 @@ let reviewRequest = {
     "review": {
         'GET': 0,
         'POST': 0,
+    },
+    "review/id": {
+        'PUT': 0,
     }
 };
 
@@ -28,7 +33,7 @@ function getReviews(connection, response) {
     requestSelect.on('requestCompleted', function() {
         if (review_info.length > 0) {
             response.status(200);
-            reviewRequest.review.GET++;
+            reviewRequest["review"].GET++;
             response.send(JSON.stringify(review_info));
         }
         else {
@@ -41,41 +46,52 @@ function getReviews(connection, response) {
 }
 
 function addReview(connection, response, reviewInfo) {
-    const INSERTREVIEW = `IF NOT EXISTS (SELECT * FROM reviews WHERE comment = '${reviewInfo.comment}')
-    INSERT INTO reviews (movieId, comment, rating) VALUES (${reviewInfo.movieId}, '${reviewInfo.comment}', ${reviewInfo.rating});`;
+    const INSERTREVIEW = `IF NOT EXISTS (SELECT * FROM reviews WHERE comment = @comment)
+    INSERT INTO reviews (movieId, comment, rating) VALUES (@id, @comment, @rating);`;
     let requestInsert = new Request(INSERTREVIEW, function(err) {
         if(err) throw err;
     });
 
     requestInsert.on('requestCompleted', function() {
+        reviewRequest["review"].POST++;
         response.status(200);
-        response.send("Review added")
+        response.send("Review added");
     });
+
+    requestInsert.addParameter('id', TYPES.Int, reviewInfo.movieId);
+    requestInsert.addParameter('comment', TYPES.VarChar, reviewInfo.comment);
+    requestInsert.addParameter('rating', TYPES.Int, reviewInfo.rating);
 
     connection.execSql(requestInsert);
     console.log("Insertion completed!");
 }
 
 function updateReview(connection, response, reviewInfo) {
-    const UPDATEREVIEW = `UPDATE reviews SET comment = '${reviewInfo.comment}', rating = ${reivewInfo.rating}' WHERE reviewId = ${reviewInfo.id}`;
+    const UPDATEREVIEW = `UPDATE reviews SET comment = @comment, rating = @rating, movieId = @movieId WHERE reviewId = @id`;
     let review_info;
-    let requestSelect = new Request(UPDATEREVIEW, function(err, result) {
+    let requestUpdate = new Request(UPDATEREVIEW, function(err, result) {
         if(err) throw err;
     })
     
-    requestSelect.on('row', (columns) => {
+    requestUpdate.on('row', (columns) => {
         review_info = new classes.Review(columns);
     })
 
-    requestSelect.on('requestCompleted', function() {
-        getActorById(connection, response, reviewInfo.id);
+    requestUpdate.on('requestCompleted', function() {
+        reviewRequest["review/id"].PUT++;
+        response.status(200);
+        response.send("Review added");
     });
 
-    connection.execSql(requestSelect);
+    requestUpdate.addParameter('id', TYPES.Int, reviewInfo.reviewId);
+    requestUpdate.addParameter('movieId', TYPES.Int, reviewInfo.movieId);
+    requestUpdate.addParameter('comment', TYPES.VarChar, reviewInfo.comment);
+    requestUpdate.addParameter('rating', TYPES.Int, reviewInfo.rating);
+
+    connection.execSql(requestUpdate);
 }
 
-
-app.get(endPoint + "review",  function(req, res) {
+app.get(endPoint + "review", function(req, res) {
     console.log('Getting reviews');
     try{
         getReviews(connection, res);
@@ -84,10 +100,14 @@ app.get(endPoint + "review",  function(req, res) {
         res.status(500)
         res.send("Error: could not handle requests.")
     }
-    
 });
 
-app.post(endPoint + "review",  function(req, res) {
+app.get(endPoint + "review/requests", checkJwt, function(req, res) {
+    console.log("Returning number of requests");
+    res.send(JSON.stringify(reviewRequest));
+});
+
+app.post(endPoint + "review", checkJwt, function(req, res) {
     console.log('Adding a review!');
     let body = '';
     req.on('data', data => {
@@ -101,7 +121,7 @@ app.post(endPoint + "review",  function(req, res) {
     });
 });
 
-app.put(endPoint + "review/:id",  function(req, res) {
+app.put(endPoint + "review/:id", checkJwt, function(req, res) {
     console.log('Updating specified review with id: ' + req.params.id);
     let body = '';
     req.on('data', data => {
