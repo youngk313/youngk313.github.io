@@ -33,9 +33,18 @@ class Review {
     }
 }
 
+class Resource {
+    constructor(reqInfo) {
+        this.endPoint = reqInfo[1].value;
+        this.reqType = reqInfo[2].value;
+        this.count = reqInfo[3].value;
+    }
+}
+
 module.exports = {
     Movie,
     Cast,
     Actor,
-    Review
+    Review,
+    Resource
 }

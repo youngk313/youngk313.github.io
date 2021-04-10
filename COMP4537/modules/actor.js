@@ -3,22 +3,10 @@ const TYPES = require('tedious').TYPES;
 const dbs = require('./connect');
 const app = require('./movie');
 const classes = require('./classes');
-const checkJwt = require('./checkJWT');
-const endPoint = "/API/v1/"
+const endPoint = "/API/v1/";
+const resource = require('./resource');
 
 connection = dbs.createConnection();
-
-let requestCount = {
-    "actor": {
-        'GET': 0,
-        'POST': 0,
-    },
-    "actor/id": {
-        'GET': 0,
-        'PUT': 0,
-        'DELETE': 0
-    },
-};
 
 function getActors(connection, response) {
     const Q_ACTORS = `SELECT * FROM actors`;
@@ -33,9 +21,8 @@ function getActors(connection, response) {
 
     requestSelect.on('requestCompleted', function() {
         if (actor_info.length > 0) {
-            response.status(200);
-            requestCount["actor"].GET++;
-            response.send(JSON.stringify(actor_info));
+            console.log("Retrieved actors successfully");
+            resource.updateRequest(connection, response, JSON.stringify(actor_info), resource.requests["get_actor"]);
         }
         else {
             response.status(404);
@@ -54,9 +41,8 @@ function addActor(connection, response, actorInfo) {
     });
 
     requestInsert.on('requestCompleted', function() {
-        requestCount["actor"].POST++;
-        response.status(200);
-        response.send("Actor added successfully")
+        let message = "Actor added successfully";
+        resource.updateRequest(connection, response, message, resource.requests["post_actor"]);
     });
 
     requestInsert.addParameter('fullname', TYPES.VarChar, actorInfo.fullname);
@@ -78,10 +64,9 @@ function getActorById(connection, response, id) {
     })
 
     requestSelect.on('requestCompleted', function() {
-        if (actor_info.actors.length > 0) {
-            response.status(200);
-            requestCount["actor/id"].GET++;
-            response.send(JSON.stringify(actor_info));
+        if (actor_info != undefined) {
+            console.log("Retrieved actor!")
+            resource.updateRequest(connection, response, JSON.stringify(actor_info), resource.requests["get_actorId"]);
         }
         else {
             response.status(404);
@@ -105,9 +90,8 @@ function updateActor(connection, response, actorInfo) {
     })
 
     requestUpdate.on('requestCompleted', function() {
-        requestCount["actor/id"].PUT++;
-        response.status(200);
-        response.send("Successfully updated actor entry");
+        let message = "Successfully updated actor entry";
+        resource.updateRequest(connection, response, message, resource.requests["put_actorId"]);
     });
 
     requestUpdate.addParameter('id', TYPES.Int, actorInfo.id);
@@ -125,9 +109,8 @@ function deleteActorById(connection, response, id) {
     });
 
     requestDeletet.on('requestCompleted', function() {
-        requestCount["actor/id"].DELETE++;
-        response.status(200);
-        response.send("Successfully deleted actor entry");
+        let message = "Successfully deleted actor entry";
+        resource.updateRequest(connection, response, message, resource.requests["del_actorId"]);
     });
 
     requestDelete.addParameter('id', TYPES.VarChar, id)
@@ -138,11 +121,6 @@ function deleteActorById(connection, response, id) {
 app.get(endPoint + "actor", function(req, res) {
     console.log('Getting list of actors!');
     getActors(connection, res);
-});
-
-app.get(endPoint + "actor/requests", checkJwt, function(req, res) {
-    console.log("Returning number of requests");
-    res.send(JSON.stringify(requestCount));
 });
 
 app.post(endPoint + "actor", function(req, res) {
@@ -156,7 +134,7 @@ app.post(endPoint + "actor", function(req, res) {
             addActor(connection, res, body);
         } catch(e) {
             res.status(500);
-            res.send("Error: Server can't handle that many requests")
+            res.send("Error: Couldn't add a new actor")
         }
     });
 });
@@ -168,7 +146,13 @@ app.put(endPoint + "actor/:id", function(req, res) {
         body += data;
         body = JSON.parse(body);
         console.log(body);
-        updateActor(connection, res, body);
+        try {
+            updateActor(connection, res, body);
+        }
+        catch(e) {
+            res.status(500);
+            res.send("Error: Couldn't update the actor")
+        }
     });
 });
 

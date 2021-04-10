@@ -1,23 +1,39 @@
 const Request = require('tedious').Request;
 const TYPES = require('tedious').TYPES;
 const classes = require('./classes');
-const checkJwt = require('./checkJWT');
 const dbs = require('./connect');
+const resource = require('./resource');
 
 const app = require('./actor');
 const endPoint = "/API/v1/";
 
-let reviewRequest = {
-    "review": {
-        'GET': 0,
-        'POST': 0,
-    },
-    "review/id": {
-        'PUT': 0,
-    }
-};
-
 connection = dbs.createConnection();
+
+function getReviewById(connection, response, id) {
+    const Q_REVIEW = `SELECT * FROM reviews WHERE movieId = @id`;
+    let review_info = [];
+    let requestSelect = new Request(Q_REVIEW, function(err, result) {
+        if(err) console.log(err);
+    })
+    requestSelect.on('row', (columns) => {
+        let review = new classes.Review(columns);
+        review_info.push(review);
+    });
+
+    requestSelect.on('requestCompleted', function() {
+        if (review_info.length > 0) {
+            console.log("Reviews retrieved successfully");
+            resource.updateRequest(connection, response, JSON.stringify(review_info), resource.requests["get_review"]);
+        }
+        else {
+            response.status(404);
+            response.send("No reviews in database");
+        }
+    });
+
+    requestSelect.addParameter('id', TYPES.Int, id);
+    connection.execSql(requestSelect);
+}
 
 function getReviews(connection, response) {
     const Q_REVIEW = `SELECT * FROM reviews`;
@@ -32,9 +48,8 @@ function getReviews(connection, response) {
 
     requestSelect.on('requestCompleted', function() {
         if (review_info.length > 0) {
-            response.status(200);
-            reviewRequest["review"].GET++;
-            response.send(JSON.stringify(review_info));
+            console.log("Reviews retrieved successfully");
+            resource.updateRequest(connection, response, JSON.stringify(review_info), resource.requests["get_review"]);
         }
         else {
             response.status(404);
@@ -53,9 +68,8 @@ function addReview(connection, response, reviewInfo) {
     });
 
     requestInsert.on('requestCompleted', function() {
-        reviewRequest["review"].POST++;
-        response.status(200);
-        response.send("Review added");
+        let message = "Review added successfully";
+        resource.updateRequest(connection, response, message, resource.requests["post_review"]);
     });
 
     requestInsert.addParameter('id', TYPES.Int, reviewInfo.movieId);
@@ -78,9 +92,8 @@ function updateReview(connection, response, reviewInfo) {
     })
 
     requestUpdate.on('requestCompleted', function() {
-        reviewRequest["review/id"].PUT++;
-        response.status(200);
-        response.send("Review added");
+        let message = "Review added";
+        resource.updateRequest(connection, response, message, resource.requests["put_review"]);
     });
 
     requestUpdate.addParameter('id', TYPES.Int, reviewInfo.reviewId);
@@ -102,11 +115,6 @@ app.get(endPoint + "review", function(req, res) {
     }
 });
 
-app.get(endPoint + "review/requests", checkJwt, function(req, res) {
-    console.log("Returning number of requests");
-    res.send(JSON.stringify(reviewRequest));
-});
-
 app.post(endPoint + "review", function(req, res) {
     console.log('Adding a review!');
     let body = '';
@@ -117,8 +125,26 @@ app.post(endPoint + "review", function(req, res) {
     });
 
     req.on('end', () => {
-        addReview(connection, res, body);
+        try {
+            addReview(connection, res, body);addReview(connection, res, body);
+        }
+        catch (e) {
+            res.status(400);
+            res.send("Could not add the review");
+        }
     });
+});
+
+app.get(endPoint + "review/:id", function(req, res) {
+    console.log('Getting reviews of the movie: ' + req.params.id);
+    try {
+        getReviewById(connection, res, req.params.id);
+    } catch(e) {
+        if (e) {
+            res.status(500)
+            res.send("Error: server can't handle that many requests ")
+        }
+    }
 });
 
 app.put(endPoint + "review/:id", function(req, res) {
@@ -131,7 +157,13 @@ app.put(endPoint + "review/:id", function(req, res) {
     });
 
     req.on('end', () => {
-        updateReview(connection, res, body);
+        try {
+            updateReview(connection, res, body);
+        }
+        catch (e) {
+            res.status(400);
+            res.send("Could not update the review");
+        }
     });
 });
 

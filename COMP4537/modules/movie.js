@@ -3,6 +3,7 @@ const dbs = require('./connect');
 const Request = require('tedious').Request;
 const TYPES = require('tedious').TYPES;
 const classes = require('./classes');
+const resource = require('./resource');
 
 const app = express();
 const endPoint = "/API/v1/"
@@ -11,20 +12,25 @@ const checkJwt = require('./checkJWT')
 
 connection = dbs.createConnection();
 
-let requestCount = {
-    "movie": {
-        'GET': 0,
-        'POST': 0,
-    },
-    "movie/id": {
-        'GET': 0,
-        'PUT': 0,
-        'DELETE': 0
-    },
-    "movie/genre": {
-        'GET': 0
-    }
-};
+function getRequests(connection, response) {
+    const GET_REQ = "SELECT * FROM requests";
+    let req_info = [];
+    let requestSelect = new Request(GET_REQ, function(err, result) {
+        if (err) throw err;
+    });
+
+    requestSelect.on('row', (columns) => {
+        let resource = new classes.Resource(columns);
+        req_info.push(resource);
+    });
+
+    requestSelect.on('requestCompleted', function() { 
+        response.status(200);
+        response.send(JSON.stringify(req_info));
+    });
+
+    connection.execSql(requestSelect);
+}
 
 function getMovies(connection, response) {
     const Q_MOVIES = `SELECT * FROM movies`;
@@ -39,9 +45,8 @@ function getMovies(connection, response) {
 
     requestSelect.on('requestCompleted', function() {
         if (movie_info.length > 0) {
-            response.status(200);
-            requestCount.movie.GET++;
-            response.send(JSON.stringify(movie_info));
+            console.log("Retrieved movies successfully");
+            resource.updateRequest(connection, response, JSON.stringify(movie_info), resource.requests["get_movie"]);
         }
         else {
             response.status(404);
@@ -59,10 +64,9 @@ function addMovie(connection, response, movieInfo) {
         if(err) throw err;
     });
 
-    requestInsert.on('requestCompleted', function() {   
-        requestCount.movie.POST++;
-        response.status(200);
-        response.send("Added movie successfully");
+    requestInsert.on('requestCompleted', function() { 
+        let message = "Added movie successfully";
+        resource.updateRequest(connection, response, message, resource.requests["post_movie"]);
     });
 
     connection.execSql(requestInsert);
@@ -84,9 +88,8 @@ function getMovieById(connection, response, id) {
             response.status(404);
             response.send("Movie does not exist in database");
         } else {
-            response.status(200);
-            requestCount["movie/id"].GET++;
-            response.send(JSON.stringify(movie_info));
+            console.log("Retrieved movie successfully");
+            resource.updateRequest(connection, response, JSON.stringify(movie_info), resource.requests["post_movie"]);
         }
     });
 
@@ -109,9 +112,12 @@ function getMoviesByGenre(connection, response, genre) {
     })
 
     requestSelect.on('requestCompleted', function() {
-        response.status(200);
-        requestCount["movie/genre"].GET++;
-        response.send(JSON.stringify(movie_info));
+        if (movie_info.length > 0) {
+            resource.updateRequest(connection, response, JSON.stringify(movie_info), resource.requests["get_mov_genre"]); 
+        } else {
+            response.status(404);
+            response.send("No movies of that genre")
+        }
     });
 
     requestSelect.addParameter('genre', TYPES.VarChar, genre);
@@ -131,9 +137,8 @@ function updateMovie(connection, response, movieInfo) {
     })
 
     requestUpdate.on('requestCompleted', function() {
-        response.status(200);
-        requestCount["movie/id"].PUT++;
-        response.send("Successfully updated movie entry");
+        let message = "Successfully updated movie entry";
+        resource.updateRequest(connection, response, message, resource.requests["put_movieId"]); 
     });
 
     requestUpdate.addParameter('id', TYPES.Int, movieInfo.id);
@@ -151,9 +156,8 @@ function deleteMovieById(connection, response, id) {
     });
 
     requestDelete.on('requestCompleted', function() {
-        response.status(200);
-        requestCount["movie/id"].DELETE++;
-        response.send("Successfully deleted movie entry");
+        let message = "Successfully deleted movie entry";
+        resource.updateRequest(connection, response, message, resource.requests["del_movieId"]);  
     });
 
     requestDelete.addParameter('id', TYPES.Int, id);
@@ -163,11 +167,6 @@ function deleteMovieById(connection, response, id) {
 
 app.get(endPoint + "movie", function(req, res) {
     console.log('Getting movies');
-    req.on('data', async (data) => {
-        body += data;
-        body = JSON.parse(body);
-        console.log(body);
-    });
     getMovies(connection, res);
 });
 
@@ -178,7 +177,13 @@ app.post(endPoint + "movie", function(req, res) {
         body += data;
         body = JSON.parse(body);
         console.log(body);
-        addMovie(connection, res, body);
+        try {
+            addMovie(connection, res, body);
+        }
+        catch(e) {
+            res.status(400);
+            res.send("Could not add the movie");
+        }
     });
 });
 
@@ -192,13 +197,19 @@ app.put(endPoint + "movie/:id", function(req, res) {
     });
 
     req.on('end', () => {
-        updateMovie(connection, res, body);
+        try {
+            updateMovie(connection, res, body);
+        }
+        catch(e) {
+            res.status(400);
+            res.send("Could not update the movie");
+        }
     });
 });
 
 app.get(endPoint + "movie/requests", checkJwt, function(req, res) {
     console.log("Returning number of requests");
-    res.send(JSON.stringify(requestCount));
+    getRequests(connection, res);
 });
 
 app.get(endPoint + "movie/genres/:genre", function(req, res) {

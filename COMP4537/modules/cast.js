@@ -2,19 +2,11 @@ const app = require('./review');
 const classes = require('./classes');
 const Request = require('tedious').Request;
 const dbs = require('./connect');
-const { RequestError } = require('tedious');
-const checkJwt = require('./checkJWT');
+const resource = require('./resource');
 
 connection = dbs.createConnection();
 
 const endPoint = "/API/v1/"
-
-let request_count = {
-    "cast": {
-        'GET': 0,
-        'POST': 0,
-    }
-}
 
 function addCast(connection, response, castInfo) {
     const INSERTCAST = `IF NOT EXISTS (SELECT * FROM cast WHERE movieId = @movieId AND actorId = @actorId)
@@ -37,9 +29,8 @@ function addCast(connection, response, castInfo) {
     requestInsert.on('requestCompleted', function() { 
         if (!err_flag) {
             console.log("Insertion completed!");
-            request_count['cast'].POST++;
-            response.status(200);
-            response.send("Added movie successfully");
+            let message = "Added cast successfully";
+            resource.updateRequest(connection, response, message, resource.requests["post_cast"])
         }
     });
 
@@ -63,9 +54,8 @@ function getCast(connection, response, movieId) {
 
     requestSelect.on('requestCompleted', function() {
         if (cast_info.actors.length > 0) {
-            response.status(200);
-            request_count["cast"].GET++;
-            response.send(JSON.stringify(cast_info));
+            console.log("Retrieved cast successfully!")
+            resource.updateRequest(connection, response, JSON.stringify(cast_info), resource.requests["post_cast"])
         }
         else {
             response.status(404);
@@ -86,11 +76,6 @@ app.get(endPoint + "cast/:id", function(req, res) {
             res.send("Error: server can't handle that many requests ")
         }
     }
-});
-
-app.get(endPoint + "cast/requests", checkJwt, function(req, res) {
-    console.log("Returning number of requests");
-    res.send(JSON.stringify(request_count));
 });
 
 app.post(endPoint + "cast", function(req, res) {
