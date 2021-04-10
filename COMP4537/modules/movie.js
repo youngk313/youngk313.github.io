@@ -8,7 +8,7 @@ const resource = require('./resource');
 const app = express();
 const endPoint = "/API/v1/"
 
-const checkJwt = require('./checkJWT')
+const checkJwt = require('./checkJWT');
 
 connection = dbs.createConnection();
 
@@ -170,7 +170,7 @@ app.get(endPoint + "movie", function(req, res) {
     getMovies(connection, res);
 });
 
-app.post(endPoint + "movie", function(req, res) {
+app.post(endPoint + "movie", checkJwt, function(req, res) {
     console.log('Adding a movie');
     let body = '';
     req.on('data', data => {
@@ -187,7 +187,7 @@ app.post(endPoint + "movie", function(req, res) {
     });
 });
 
-app.put(endPoint + "movie/:id", function(req, res) {
+app.put(endPoint + "movie/:id", checkJwt, function(req, res) {
     console.log('Updating specified movie with id: ' + req.params.id);
     let body = '';
     req.on('data', data => {
@@ -212,12 +212,12 @@ app.get(endPoint + "movie/requests", checkJwt, function(req, res) {
     getRequests(connection, res);
 });
 
-app.get(endPoint + "movie/genres/:genre", function(req, res) {
+app.get(endPoint + "movie/genres/:genre", checkJwt, function(req, res) {
     console.log('Getting specified movie with genre: ' + req.params.genre);
     getMoviesByGenre(connection, res, req.params.genre);
 });
 
-app.get(endPoint + "movie/:id", function(req, res) {
+app.get(endPoint + "movie/:id", checkJwt, function(req, res) {
     console.log('Getting specified movie with id: ' + req.params.id);
     try {
         getMovieById(connection, res, req.params.id);
@@ -233,7 +233,7 @@ app.get(endPoint + "movie/:id", function(req, res) {
     }
 });
 
-app.delete(endPoint + "movie/:id", function(req, res) {
+app.delete(endPoint + "movie/:id", checkJwt, function(req, res) {
     console.log('Deleting specified movie with id: ' + req.params.id);
     deleteMovieById(connection, res, req.params.id);
 });

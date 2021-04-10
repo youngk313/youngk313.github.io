@@ -3,6 +3,7 @@ const classes = require('./classes');
 const Request = require('tedious').Request;
 const dbs = require('./connect');
 const resource = require('./resource');
+const checkJwt = require('./checkJWT');
 
 connection = dbs.createConnection();
 
@@ -66,26 +67,29 @@ function getCast(connection, response, movieId) {
     connection.execSql(requestSelect);
 } 
 
-app.get(endPoint + "cast/:id", function(req, res) {
+app.get(endPoint + "cast/:id", checkJwt, function(req, res) {
     console.log('Getting cast of the movie: ' + req.params.id);
     try{
         getCast(connection, res, req.params.id);
     } catch(e) {
-        if (e) {
-            res.status(500)
-            res.send("Error: server can't handle that many requests ")
-        }
+        res.status(500);
+        res.send("Error: server can't handle that many requests ");
     }
 });
 
-app.post(endPoint + "cast", function(req, res) {
+app.post(endPoint + "cast", checkJwt, function(req, res) {
     console.log('Adding the cast...');
     let body = '';
     req.on('data', data => {
         body += data;
         body = JSON.parse(body);
         console.log(body);
-        addCast(connection, res, body);
+        try {
+            addCast(connection, res, body);
+        } catch(e) {
+            res.status(400);
+            res.send("Error: cannot add the cast to the database"); 
+        }
     });
 });
 

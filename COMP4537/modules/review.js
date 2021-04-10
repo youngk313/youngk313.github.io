@@ -3,6 +3,7 @@ const TYPES = require('tedious').TYPES;
 const classes = require('./classes');
 const dbs = require('./connect');
 const resource = require('./resource');
+const checkJwt = require('./checkJWT');
 
 const app = require('./actor');
 const endPoint = "/API/v1/";
@@ -115,7 +116,7 @@ app.get(endPoint + "review", function(req, res) {
     }
 });
 
-app.post(endPoint + "review", function(req, res) {
+app.post(endPoint + "review", checkJwt, function(req, res) {
     console.log('Adding a review!');
     let body = '';
     req.on('data', data => {
@@ -135,19 +136,19 @@ app.post(endPoint + "review", function(req, res) {
     });
 });
 
-app.get(endPoint + "review/:id", function(req, res) {
+app.get(endPoint + "review/:id", checkJwt, function(req, res) {
     console.log('Getting reviews of the movie: ' + req.params.id);
     try {
         getReviewById(connection, res, req.params.id);
     } catch(e) {
         if (e) {
-            res.status(500)
+            res.status(500);
             res.send("Error: server can't handle that many requests ")
         }
     }
 });
 
-app.put(endPoint + "review/:id", function(req, res) {
+app.put(endPoint + "review/:id", checkJwt, function(req, res) {
     console.log('Updating specified review with id: ' + req.params.id);
     let body = '';
     req.on('data', data => {

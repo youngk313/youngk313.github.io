@@ -5,6 +5,7 @@ const app = require('./movie');
 const classes = require('./classes');
 const endPoint = "/API/v1/";
 const resource = require('./resource');
+const checkJwt = require('./checkJWT');
 
 connection = dbs.createConnection();
 
@@ -123,7 +124,7 @@ app.get(endPoint + "actor", function(req, res) {
     getActors(connection, res);
 });
 
-app.post(endPoint + "actor", function(req, res) {
+app.post(endPoint + "actor", checkJwt, function(req, res) {
     console.log('Adding a new actor!');
     let body = '';
     req.on('data', data => {
@@ -139,7 +140,7 @@ app.post(endPoint + "actor", function(req, res) {
     });
 });
 
-app.put(endPoint + "actor/:id", function(req, res) {
+app.put(endPoint + "actor/:id", checkJwt, function(req, res) {
     console.log('Updating specified actor with id: ' + req.params.id);
     let body = '';
     req.on('data', data => {
@@ -156,12 +157,12 @@ app.put(endPoint + "actor/:id", function(req, res) {
     });
 });
 
-app.get(endPoint + "actor/:id", function(req, res) {
+app.get(endPoint + "actor/:id", checkJwt, function(req, res) {
     console.log('Getting specified actor with id: ' + req.params.id);
     getActorById(connection, res, req.params.id);
 });
 
-app.delete(endPoint + "actor/:id", function(req, res) {
+app.delete(endPoint + "actor/:id", checkJwt, function(req, res) {
     console.log('Deleting specified actor with id: ' + req.params.id);
     deleteActorById(connection, res, req.params.id);
 });
