@@ -105,7 +105,7 @@ function updateReview(connection, response, reviewInfo) {
     connection.execSql(requestUpdate);
 }
 
-app.get(endPoint + "review", function(req, res) {
+app.get(endPoint + "review", checkJwt, function(req, res) {
     console.log('Getting reviews');
     try{
         getReviews(connection, res);

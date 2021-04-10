@@ -119,7 +119,7 @@ function deleteActorById(connection, response, id) {
     console.log("Deletion completed!");
 }
 
-app.get(endPoint + "actor", function(req, res) {
+app.get(endPoint + "actor", checkJwt, function(req, res) {
     console.log('Getting list of actors!');
     getActors(connection, res);
 });
