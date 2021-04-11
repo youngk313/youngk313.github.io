@@ -205,24 +205,31 @@ font-style: italic;
   <li><a href="#getActorById"><code><span class="http-method">get</span> /actor/{actorId}</code></a></li>
   <li><a href="#updateActorWithForm"><code><span class="http-method">put</span> /actor/{actorId}</code></a></li>
   </ul>
+  <h4><a href="#Cast">Cast</a></h4>
+  <ul>
+  <li><a href="#addCast"><code><span class="http-method">post</span> /cast</code></a></li>
+  <li><a href="#getCastById"><code><span class="http-method">get</span> /cast/{movieId}</code></a></li>
+  </ul>
   <h4><a href="#Movie">Movie</a></h4>
   <ul>
   <li><a href="#addMovie"><code><span class="http-method">post</span> /movie</code></a></li>
   <li><a href="#deleteMovie"><code><span class="http-method">delete</span> /movie/{movieId}</code></a></li>
-  <li><a href="#findMoviesByTags"><code><span class="http-method">get</span> /movie/findByTags</code></a></li>
+  <li><a href="#findMoviesByGenre"><code><span class="http-method">get</span> /movie/genres/{genre}</code></a></li>
   <li><a href="#getMovieById"><code><span class="http-method">get</span> /movie/{movieId}</code></a></li>
+  <li><a href="#getMovies"><code><span class="http-method">get</span> /movie</code></a></li>
   <li><a href="#updateMovieWithForm"><code><span class="http-method">put</span> /movie/{movieId}</code></a></li>
+  </ul>
+  <h4><a href="#Review">Review</a></h4>
+  <ul>
+  <li><a href="#addReview"><code><span class="http-method">post</span> /review</code></a></li>
+  <li><a href="#deleteReview"><code><span class="http-method">delete</span> /review/{reviewId}</code></a></li>
+  <li><a href="#getReviewById"><code><span class="http-method">get</span> /review/{reviewId}</code></a></li>
+  <li><a href="#updateReview"><code><span class="http-method">put</span> /review/{reviewId}</code></a></li>
   </ul>
   <h4><a href="#User">User</a></h4>
   <ul>
-  <li><a href="#createUser"><code><span class="http-method">post</span> /user</code></a></li>
-  <li><a href="#createUsersWithArrayInput"><code><span class="http-method">post</span> /user/createWithArray</code></a></li>
-  <li><a href="#createUsersWithListInput"><code><span class="http-method">post</span> /user/createWithList</code></a></li>
-  <li><a href="#deleteUser"><code><span class="http-method">delete</span> /user/{username}</code></a></li>
-  <li><a href="#getUserByName"><code><span class="http-method">get</span> /user/{username}</code></a></li>
-  <li><a href="#loginUser"><code><span class="http-method">get</span> /user/login</code></a></li>
-  <li><a href="#logoutUser"><code><span class="http-method">get</span> /user/logout</code></a></li>
-  <li><a href="#updateUser"><code><span class="http-method">put</span> /user/{username}</code></a></li>
+  <li><a href="#createUser"><code><span class="http-method">post</span> /register</code></a></li>
+  <li><a href="#loginUser"><code><span class="http-method">get</span> /login</code></a></li>
   </ul>
 
   <h1><a name="Actor">Actor</a></h1>
@@ -347,17 +354,17 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/xml</div>
     <pre class="example"><code><Actor>
   <id>123456789</id>
-  <name>Christian Bale</name>
-  <age>123456789</age>
+  <fullname>Christian Bale</fullname>
+  <year>123456789</year>
   <photoURL>aeiou</photoURL>
 </Actor></code></pre>
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "photoURL" : "photoURL",
-  "name" : "Christian Bale",
-  "id" : 5,
-  "age" : 5
+  "year" : 6,
+  "id" : 0,
+  "fullname" : "Christian Bale"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -425,6 +432,113 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">405</h4>
     Invalid input
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Cast">Cast</a></h1>
+  <div class="method"><a name="addCast"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /cast</code></pre></div>
+    <div class="method-summary">Add a cast of a movie to the database (<span class="nickname">addCast</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+      <li><code>application/xml</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#Cast">Cast</a> (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Cast to be added to the database </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/xml</code></li>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">405</h4>
+    Invalid input
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getCastById"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /cast/{movieId}</code></pre></div>
+    <div class="method-summary">Find cast by ID (<span class="nickname">getCastById</span>)</div>
+    <div class="method-notes">Returns a single review</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">movieId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of movie to get cast of format: int64</div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Cast">Cast</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/xml</div>
+    <pre class="example"><code><Cast>
+  <movieId>123456789</movieId>
+  <actorId>123456789</actorId>
+  <role>aeiou</role>
+</Cast></code></pre>
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "actorId" : 6,
+  "role" : "role",
+  "movieId" : 0
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/xml</code></li>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    successful operation
+        <a href="#Cast">Cast</a>
+    <h4 class="field-label">400</h4>
+    Invalid ID supplied
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    Cast not found
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
@@ -519,23 +633,23 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="findMoviesByTags"/>
+  <div class="method"><a name="findMoviesByGenre"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /movie/findByTags</code></pre></div>
-    <div class="method-summary">Finds Movies by tags (<span class="nickname">findMoviesByTags</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /movie/genres/{genre}</code></pre></div>
+    <div class="method-summary">Finds Movies by Genre (<span class="nickname">findMoviesByGenre</span>)</div>
     <div class="method-notes">Muliple tags can be provided with comma separated strings. Use         tag1, tag2, tag3 for testing.</div>
 
-
-
-
-
-    <h3 class="field-label">Query parameters</h3>
+    <h3 class="field-label">Path parameters</h3>
     <div class="field-items">
-      <div class="param">tags (required)</div>
+      <div class="param">genre (required)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Tags to filter by </div>
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Tags to filter by </div>
     </div>  <!-- field-items -->
+
+
+
+
 
 
     <h3 class="field-label">Return type</h3>
@@ -550,51 +664,22 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/xml</div>
     <pre class="example"><code><Movie>
   <id>123456789</id>
-  <name>The Dark Knight</name>
+  <genre>Action</genre>
+  <title>The Dark Knight</title>
   <year>123456789</year>
-  <actors>
-  </actors>
 </Movie></code></pre>
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>[ {
-  "actors" : [ {
-    "photoURL" : "photoURL",
-    "name" : "Christian Bale",
-    "id" : 5,
-    "age" : 5
-  }, {
-    "photoURL" : "photoURL",
-    "name" : "Christian Bale",
-    "id" : 5,
-    "age" : 5
-  } ],
-  "year" : 1,
-  "genre" : {
-    "name" : "name",
-    "id" : 6
-  },
-  "name" : "The Dark Knight",
-  "id" : 0
+  "year" : 6,
+  "genre" : "Action",
+  "id" : 0,
+  "title" : "The Dark Knight"
 }, {
-  "actors" : [ {
-    "photoURL" : "photoURL",
-    "name" : "Christian Bale",
-    "id" : 5,
-    "age" : 5
-  }, {
-    "photoURL" : "photoURL",
-    "name" : "Christian Bale",
-    "id" : 5,
-    "age" : 5
-  } ],
-  "year" : 1,
-  "genre" : {
-    "name" : "name",
-    "id" : 6
-  },
-  "name" : "The Dark Knight",
-  "id" : 0
+  "year" : 6,
+  "genre" : "Action",
+  "id" : 0,
+  "title" : "The Dark Knight"
 } ]</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -642,43 +727,28 @@ font-style: italic;
     <!--Todo: process Response Object and its headers, schema, examples -->
 
     <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "year" : 6,
+  "genre" : "Action",
+  "id" : 0,
+  "title" : "The Dark Knight"
+}</code></pre>
+    <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/xml</div>
     <pre class="example"><code><Movie>
   <id>123456789</id>
-  <name>The Dark Knight</name>
+  <genre>Action</genre>
+  <title>The Dark Knight</title>
   <year>123456789</year>
-  <actors>
-  </actors>
 </Movie></code></pre>
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{
-  "actors" : [ {
-    "photoURL" : "photoURL",
-    "name" : "Christian Bale",
-    "id" : 5,
-    "age" : 5
-  }, {
-    "photoURL" : "photoURL",
-    "name" : "Christian Bale",
-    "id" : 5,
-    "age" : 5
-  } ],
-  "year" : 1,
-  "genre" : {
-    "name" : "name",
-    "id" : 6
-  },
-  "name" : "The Dark Knight",
-  "id" : 0
-}</code></pre>
 
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
     the media type will be conveyed by the <span class="header">Content-Type</span> response header.
     <ul>
-      <li><code>application/xml</code></li>
       <li><code>application/json</code></li>
+      <li><code>application/xml</code></li>
     </ul>
 
     <h3 class="field-label">Responses</h3>
@@ -690,6 +760,50 @@ font-style: italic;
         <a href="#"></a>
     <h4 class="field-label">404</h4>
     Movie not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getMovies"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /movie</code></pre></div>
+    <div class="method-summary">Gets all movies from the database (<span class="nickname">getMovies</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+      <li><code>application/xml</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#Movie">Movie</a> (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Movie object that needs to be added to the database </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/xml</code></li>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">405</h4>
+    Invalid input
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
@@ -741,13 +855,216 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
+  <h1><a name="Review">Review</a></h1>
+  <div class="method"><a name="addReview"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /review</code></pre></div>
+    <div class="method-summary">Add a new review to the database (<span class="nickname">addReview</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+      <li><code>application/xml</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#Review">Review</a> (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Review to be added to the database </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/xml</code></li>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">405</h4>
+    Invalid input
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="deleteReview"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /review/{reviewId}</code></pre></div>
+    <div class="method-summary">Deletes the review (<span class="nickname">deleteReview</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">reviewId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Review id to delete format: int64</div>
+    </div>  <!-- field-items -->
+
+
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+      <div class="param">api_key (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Header Parameter</span> &mdash;  </div>
+    </div>  <!-- field-items -->
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/xml</code></li>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">400</h4>
+    Invalid ID supplied
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    Rview not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getReviewById"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /review/{reviewId}</code></pre></div>
+    <div class="method-summary">Find review by ID (<span class="nickname">getReviewById</span>)</div>
+    <div class="method-notes">Returns a single review</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">reviewId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of review to return format: int64</div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Review">Review</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/xml</div>
+    <pre class="example"><code><User>
+  <id>123456789</id>
+  <movieId>123456789</movieId>
+  <comment>aeiou</comment>
+  <rating>123456789</rating>
+</User></code></pre>
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "rating" : 1,
+  "movieId" : 6,
+  "comment" : "comment",
+  "id" : 0
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/xml</code></li>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    successful operation
+        <a href="#Review">Review</a>
+    <h4 class="field-label">400</h4>
+    Invalid ID supplied
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    Review not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="updateReview"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /review/{reviewId}</code></pre></div>
+    <div class="method-summary">Updates a review in the database (<span class="nickname">updateReview</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">reviewId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of actor that needs to be updated format: int64</div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/x-www-form-urlencoded</code></li>
+    </ul>
+
+
+
+
+    <h3 class="field-label">Form parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash; Updated name of the actor </div>
+    </div>  <!-- field-items -->
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/xml</code></li>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">405</h4>
+    Invalid input
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
   <h1><a name="User">User</a></h1>
   <div class="method"><a name="createUser"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /user</code></pre></div>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /register</code></pre></div>
     <div class="method-summary">Create user (<span class="nickname">createUser</span>)</div>
-    <div class="method-notes">This can only be done by the logged in user.</div>
+    <div class="method-notes">This endpoint is used to for sending user info to the database.</div>
 
 
 
@@ -780,194 +1097,10 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="createUsersWithArrayInput"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /user/createWithArray</code></pre></div>
-    <div class="method-summary">Creates list of users with given input array (<span class="nickname">createUsersWithArrayInput</span>)</div>
-    <div class="method-notes"></div>
-
-
-
-    <h3 class="field-label">Request body</h3>
-    <div class="field-items">
-      <div class="param">body <a href="#User">User</a> (required)</div>
-
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; List of user object </div>
-
-    </div>  <!-- field-items -->
-
-
-
-
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
-    <ul>
-      <li><code>application/xml</code></li>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">default</h4>
-    successful operation
-        <a href="#"></a>
-  </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="createUsersWithListInput"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /user/createWithList</code></pre></div>
-    <div class="method-summary">Creates list of users with given input array (<span class="nickname">createUsersWithListInput</span>)</div>
-    <div class="method-notes"></div>
-
-
-
-    <h3 class="field-label">Request body</h3>
-    <div class="field-items">
-      <div class="param">body <a href="#User">User</a> (required)</div>
-
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; List of user object </div>
-
-    </div>  <!-- field-items -->
-
-
-
-
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
-    <ul>
-      <li><code>application/xml</code></li>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">default</h4>
-    successful operation
-        <a href="#"></a>
-  </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="deleteUser"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /user/{username}</code></pre></div>
-    <div class="method-summary">Delete user (<span class="nickname">deleteUser</span>)</div>
-    <div class="method-notes">This can only be done by the logged in user.</div>
-
-    <h3 class="field-label">Path parameters</h3>
-    <div class="field-items">
-      <div class="param">username (required)</div>
-
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; The name that needs to be deleted </div>
-    </div>  <!-- field-items -->
-
-
-
-
-
-
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
-    <ul>
-      <li><code>application/xml</code></li>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">400</h4>
-    Invalid username supplied
-        <a href="#"></a>
-    <h4 class="field-label">404</h4>
-    User not found
-        <a href="#"></a>
-  </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="getUserByName"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /user/{username}</code></pre></div>
-    <div class="method-summary">Get user by user name (<span class="nickname">getUserByName</span>)</div>
-    <div class="method-notes"></div>
-
-    <h3 class="field-label">Path parameters</h3>
-    <div class="field-items">
-      <div class="param">username (required)</div>
-
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; The name that needs to be fetched. Use user1 for testing. </div>
-    </div>  <!-- field-items -->
-
-
-
-
-
-
-    <h3 class="field-label">Return type</h3>
-    <div class="return-type">
-      <a href="#User">User</a>
-      
-    </div>
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/xml</div>
-    <pre class="example"><code><User>
-  <id>123456789</id>
-  <username>aeiou</username>
-  <firstName>aeiou</firstName>
-  <lastName>aeiou</lastName>
-  <email>aeiou</email>
-  <password>aeiou</password>
-</User></code></pre>
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{
-  "firstName" : "firstName",
-  "lastName" : "lastName",
-  "password" : "password",
-  "id" : 0,
-  "email" : "email",
-  "username" : "username"
-}</code></pre>
-
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
-    <ul>
-      <li><code>application/xml</code></li>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    successful operation
-        <a href="#User">User</a>
-    <h4 class="field-label">400</h4>
-    Invalid username supplied
-        <a href="#"></a>
-    <h4 class="field-label">404</h4>
-    User not found
-        <a href="#"></a>
-  </div> <!-- method -->
-  <hr/>
   <div class="method"><a name="loginUser"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /user/login</code></pre></div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /login</code></pre></div>
     <div class="method-summary">Logs user into the system (<span class="nickname">loginUser</span>)</div>
     <div class="method-notes"></div>
 
@@ -1017,84 +1150,6 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="logoutUser"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /user/logout</code></pre></div>
-    <div class="method-summary">Logs out current logged in user session (<span class="nickname">logoutUser</span>)</div>
-    <div class="method-notes"></div>
-
-
-
-
-
-
-
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
-    <ul>
-      <li><code>application/xml</code></li>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">default</h4>
-    successful operation
-        <a href="#"></a>
-  </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="updateUser"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="put"><code class="huge"><span class="http-method">put</span> /user/{username}</code></pre></div>
-    <div class="method-summary">Updated user (<span class="nickname">updateUser</span>)</div>
-    <div class="method-notes">This can only be done by the logged in user.</div>
-
-    <h3 class="field-label">Path parameters</h3>
-    <div class="field-items">
-      <div class="param">username (required)</div>
-
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; name that need to be updated </div>
-    </div>  <!-- field-items -->
-
-
-    <h3 class="field-label">Request body</h3>
-    <div class="field-items">
-      <div class="param">body <a href="#User">User</a> (required)</div>
-
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Updated user object </div>
-
-    </div>  <!-- field-items -->
-
-
-
-
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
-    <ul>
-      <li><code>application/xml</code></li>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">400</h4>
-    Invalid user supplied
-        <a href="#"></a>
-    <h4 class="field-label">404</h4>
-    User not found
-        <a href="#"></a>
-  </div> <!-- method -->
-  <hr/>
 
   <h2><a name="__Models">Models</a></h2>
   [ Jump to <a href="#__Methods">Methods</a> ]
@@ -1102,8 +1157,9 @@ font-style: italic;
   <h3>Table of Contents</h3>
   <ol>
     <li><a href="#Actor"><code>Actor</code> - </a></li>
-    <li><a href="#Genre"><code>Genre</code> - </a></li>
+    <li><a href="#Cast"><code>Cast</code> - </a></li>
     <li><a href="#Movie"><code>Movie</code> - </a></li>
+    <li><a href="#Review"><code>Review</code> - </a></li>
     <li><a href="#User"><code>User</code> - </a></li>
   </ol>
 
@@ -1112,18 +1168,19 @@ font-style: italic;
     <div class='model-description'></div>
     <div class="field-items">
       <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
-<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">fullname (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
           <div class="param-desc"><span class="param-type">example: Christian Bale</span></div>
-<div class="param">age (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">year (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
 <div class="param">photoURL (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3><a name="Genre"><code>Genre</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <h3><a name="Cast"><code>Cast</code> - </a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'></div>
     <div class="field-items">
-      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
-<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      <div class="param">movieId (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">actorId (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">role (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1131,11 +1188,21 @@ font-style: italic;
     <div class='model-description'></div>
     <div class="field-items">
       <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
-<div class="param">genre (optional)</div><div class="param-desc"><span class="param-type"><a href="#Genre">Genre</a></span>  </div>
-<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">genre (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+          <div class="param-desc"><span class="param-type">example: Action</span></div>
+<div class="param">title </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
           <div class="param-desc"><span class="param-type">example: The Dark Knight</span></div>
 <div class="param">year </div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
-<div class="param">actors </div><div class="param-desc"><span class="param-type"><a href="#Actor">array[Actor]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Review"><code>Review</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">movieId (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">comment (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">rating (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1144,9 +1211,6 @@ font-style: italic;
     <div class="field-items">
       <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
 <div class="param">username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
-<div class="param">firstName (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
-<div class="param">lastName (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
-<div class="param">email (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
 <div class="param">password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
