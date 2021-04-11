@@ -109,7 +109,7 @@ function deleteActorById(connection, response, id) {
         if(err) throw err;
     });
 
-    requestDeletet.on('requestCompleted', function() {
+    requestDelete.on('requestCompleted', function() {
         let message = "Successfully deleted actor entry";
         resource.updateRequest(connection, response, message, resource.requests["del_actorId"]);
     });
