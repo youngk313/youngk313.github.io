@@ -81,7 +81,7 @@ function addReview(connection, response, reviewInfo) {
     console.log("Insertion completed!");
 }
 
-function updateReview(connection, response, reviewInfo) {
+function updateReview(connection, response, reviewInfo, id) {
     const UPDATEREVIEW = `UPDATE reviews SET comment = @comment, rating = @rating, movieId = @movieId WHERE reviewId = @id`;
     let review_info;
     let requestUpdate = new Request(UPDATEREVIEW, function(err, result) {
@@ -97,7 +97,7 @@ function updateReview(connection, response, reviewInfo) {
         resource.updateRequest(connection, response, message, resource.requests["put_review"]);
     });
 
-    requestUpdate.addParameter('id', TYPES.Int, reviewInfo.reviewId);
+    requestUpdate.addParameter('id', TYPES.Int, id);
     requestUpdate.addParameter('movieId', TYPES.Int, reviewInfo.movieId);
     requestUpdate.addParameter('comment', TYPES.VarChar, reviewInfo.comment);
     requestUpdate.addParameter('rating', TYPES.Int, reviewInfo.rating);
@@ -159,7 +159,7 @@ app.put(endPoint + "review/:id", checkJwt, function(req, res) {
 
     req.on('end', () => {
         try {
-            updateReview(connection, res, body);
+            updateReview(connection, res, body, req.params.id);
         }
         catch (e) {
             res.status(400);

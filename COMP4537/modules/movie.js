@@ -125,7 +125,7 @@ function getMoviesByGenre(connection, response, genre) {
     connection.execSql(requestSelect);
 }
 
-function updateMovie(connection, response, movieInfo) {
+function updateMovie(connection, response, movieInfo, id) {
     const UPDATEMOVIE = `UPDATE movies SET title = @title, year = @year, genre = @genre WHERE movieId = @id`;
     let movie_info;
     let requestUpdate = new Request(UPDATEMOVIE, function(err, result) {
@@ -141,7 +141,7 @@ function updateMovie(connection, response, movieInfo) {
         resource.updateRequest(connection, response, message, resource.requests["put_movieId"]); 
     });
 
-    requestUpdate.addParameter('id', TYPES.Int, movieInfo.id);
+    requestUpdate.addParameter('id', TYPES.Int, id);
     requestUpdate.addParameter('title', TYPES.VarChar, movieInfo.title);
     requestUpdate.addParameter('year', TYPES.Int, movieInfo.year);
     requestUpdate.addParameter('genre', TYPES.VarChar, movieInfo.genre);
@@ -198,7 +198,7 @@ app.put(endPoint + "movie/:id", checkJwt, function(req, res) {
 
     req.on('end', () => {
         try {
-            updateMovie(connection, res, body);
+            updateMovie(connection, res, body, req.params.id);
         }
         catch(e) {
             res.status(400);
