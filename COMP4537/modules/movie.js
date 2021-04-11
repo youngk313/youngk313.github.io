@@ -58,8 +58,8 @@ function getMovies(connection, response) {
 }
 
 function addMovie(connection, response, movieInfo) {
-    const INSERTMOVIE = `IF NOT EXISTS (SELECT * FROM movies WHERE title = '${movieInfo.title}')
-    INSERT INTO movies (title, year, genre) VALUES ('${movieInfo.title}', ${movieInfo.year}, '${movieInfo.genre}');`;
+    const INSERTMOVIE = `IF NOT EXISTS (SELECT * FROM movies WHERE title = @title)
+    INSERT INTO movies (title, year, genre) VALUES (@title, @year, @genre);`;
     let requestInsert = new Request(INSERTMOVIE, function(err) {
         if(err) throw err;
     });
@@ -68,6 +68,10 @@ function addMovie(connection, response, movieInfo) {
         let message = "Added movie successfully";
         resource.updateRequest(connection, response, message, resource.requests["post_movie"]);
     });
+
+    requestInsert.addParameter('title', TYPES.VarChar, movieInfo.title);
+    requestInsert.addParameter('year', TYPES.Int, movieInfo.year);
+    requestInsert.addParameter('genre', TYPES.VarChar, movieInfo.genre);
 
     connection.execSql(requestInsert);
     console.log("Insertion completed!");
