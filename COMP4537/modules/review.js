@@ -127,7 +127,7 @@ app.post(endPoint + "review", checkJwt, function(req, res) {
 
     req.on('end', () => {
         try {
-            addReview(connection, res, body);addReview(connection, res, body);
+            addReview(connection, res, body);
         }
         catch (e) {
             res.status(400);
