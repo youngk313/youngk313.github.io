@@ -74,7 +74,7 @@ function addMovie(connection, response, movieInfo) {
 }
 
 function getMovieById(connection, response, id) {
-    const Q_MOVIES = `SELECT * FROM movies WHERE movieId = ${id}`;
+    const Q_MOVIES = `SELECT * FROM movies WHERE movieId = @id`;
     let movie_info;
     let requestSelect = new Request(Q_MOVIES, function(err, result) {
         if(err) throw err;  
@@ -89,10 +89,11 @@ function getMovieById(connection, response, id) {
             response.send("Movie does not exist in database");
         } else {
             console.log("Retrieved movie successfully");
-            resource.updateRequest(connection, response, JSON.stringify(movie_info), resource.requests["post_movie"]);
+            resource.updateRequest(connection, response, JSON.stringify(movie_info), resource.requests["get_movieId"]);
         }
     });
 
+    requestSelect.addParameter('id', TYPES.Int, id);
     connection.execSql(requestSelect);
 }
 

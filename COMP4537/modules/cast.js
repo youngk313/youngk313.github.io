@@ -56,7 +56,7 @@ function getCast(connection, response, movieId) {
     requestSelect.on('requestCompleted', function() {
         if (cast_info.actors.length > 0) {
             console.log("Retrieved cast successfully!")
-            resource.updateRequest(connection, response, JSON.stringify(cast_info), resource.requests["post_cast"])
+            resource.updateRequest(connection, response, JSON.stringify(cast_info), resource.requests["get_cast"]);
         }
         else {
             response.status(404);
